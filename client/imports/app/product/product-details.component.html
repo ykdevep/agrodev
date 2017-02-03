@@ -1,0 +1,63 @@
+<md-card class="demo-card demo-basic">
+  <md-toolbar class="md-primary" color="primary">
+    Product Details
+  </md-toolbar>
+  <md-card-content>
+  
+  <form *ngIf="product" (submit)="saveProduct()">
+    <fieldset class="form-group">
+      <md-input [disabled]="!isOwner" type="text" [(ngModel)]="product.name" name="name" #name placeholder="Product name" style="width: 49%" minlength="2" maxlength="40" required>
+        <md-hint align="end">{{name.characterCount}} / 40</md-hint>
+      </md-input>
+      
+      <md-checkbox [disabled]="!isOwner" [(ngModel)]="product.onSale" name="on_sale" style="width: 10%">On Sale</md-checkbox>
+      <md-input [disabled]="!isOwner" type="number" [(ngModel)]="product.quantityInStock" name="quantity_in_stock" placeholder="Quantity in Stock" #quantity_in_stock style="width: 20%" required></md-input>
+      <md-input [disabled]="!isOwner" type="number" step="any" [(ngModel)]="product.unitPrice" name="unit_price" placeholder="Unit price" #unit_price style="width: 20%" required></md-input>
+            
+      <md-input [disabled]="!isOwner" type="text" [(ngModel)]="product.location.name" name="location" #location placeholder="Location" style="width: 19%" required minlength="2" maxlength="50">
+        <md-hint align="end">{{location.characterCount}} / 50</md-hint>
+      </md-input>
+     
+      
+      <md-textarea [disabled]="!isOwner"  type="text" [(ngModel)]="product.description" name="description" #description placeholder="Description" style="width: 80%"  minlength="2" maxlength="250" required>
+        <md-hint align="end">{{description.characterCount}} / 250</md-hint>
+      </md-textarea>  
+
+      <div style="padding: 20px"> <h3>Location</h3>
+
+        <sebm-google-map
+          [latitude]="lat || centerLat"
+          [longitude]="lng || centerLng"
+          [zoom]="6"
+          (mapClick)="mapClicked($event)">
+
+          <sebm-google-map-marker
+            *ngIf="lat && lng"
+            [latitude]="lat"
+            [longitude]="lng">
+          </sebm-google-map-marker>
+
+        </sebm-google-map>
+      </div>
+
+      <product-upload #upload (onFile)="onImage($event)"></product-upload>   
+
+      <div *ngIf="product.images">
+        <ul class="image-list">
+          <li *ngFor="let image of product.images">
+            <figure>
+              <img class="product-main-image" [src]="image | displayMainImage">
+              <figcaption style="text-align: center;"><button md-raised-button [hidden]="!isOwner"  color="warn" (click)="removeImage(image)"><i class="material-icons">delete_forever</i>Delete</button></figcaption>
+            </figure>
+                                  
+          </li>                  
+        </ul>                
+      </div>
+
+      <button md-raised-button color="primary" type="submit"><i class="material-icons">create</i>Save</button>
+      <button md-raised-button type="button" [routerLink]="['/user/products']" [queryParams]="query">Back</button>
+      
+    </fieldset>
+  </form>
+ </md-card-content>
+</md-card>

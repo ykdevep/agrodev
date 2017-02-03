@@ -1,0 +1,31 @@
+<md-card class="demo-card demo-basic">
+  <md-toolbar class="md-primary" color="primary">
+      Add route
+    </md-toolbar>
+  <md-card-content>
+  
+  <form [formGroup]="addForm" (ngSubmit)="addRoute();">
+    <fieldset class="form-group">
+      <md-input formControlName="name" placeholder="Route name" #name style="width: 35%" required minlength="2" maxlength="40">
+        <md-hint align="end">{{name.characterCount}} / 40</md-hint>
+      </md-input>
+
+      <md-input type="number" step="any" formControlName="price" placeholder="Route price" #unit_price style="width: 10%" required></md-input>
+
+      <md-textarea formControlName="description" placeholder="Description" #description style="width: 54%" minlength="2" maxlength="250" required>
+        <md-hint align="end">{{description.characterCount}} / 250</md-hint>
+      </md-textarea>
+
+      <md-input formControlName="start_route"  placeholder="Start Route" #start_route required style="width: 49%" minlength="2" maxlength="50">
+        <md-hint align="end">{{start_route.characterCount}} / 50</md-hint>
+      </md-input>
+
+      <md-input formControlName="final_route"  placeholder="Final route" #final_route required style="width: 49%" minlength="2" maxlength="50">
+        <md-hint align="end">{{final_route.characterCount}} / 50</md-hint>
+      </md-input>
+
+      <button md-raised-button color="primary" [disabled]="!addForm.valid" type="submit"><i class="material-icons">add</i>Add</button>
+    </fieldset>
+  </form>
+  </md-card-content>
+</md-card>

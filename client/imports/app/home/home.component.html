@@ -1,0 +1,47 @@
+<div class="search-results"
+    infinite-scroll
+    [infiniteScrollDistance]="1"
+    [infiniteScrollThrottle]="100"
+    (scrolled)="onScrollDown()">
+  
+    <md-toolbar>              
+      <form [formGroup]="searchForm" (ngSubmit)="search();">
+          <md-input formControlName="name" placeholder="What is looking for you?" #name style="width: 54%"></md-input>
+          <md-input formControlName="min" step="any" type="number" placeholder="Min" #min style="width: 10%"></md-input>
+          <md-input formControlName="max" step="any" type="number" placeholder="Max" #max style="width: 10%"></md-input>
+
+          <button md-raised-button color="primary" type="submit"><i class="material-icons">search</i>Search</button>
+      </form>   
+    </md-toolbar>         
+
+    <h1 *ngIf="productsSize == 0">Products not found </h1>    
+
+    <md-grid-list rowHeight="400px" gutterSize="1px" cols="5">                
+      <md-grid-tile *ngFor="let product of products | async">
+        <md-card class="product-card">
+          <md-card-header>
+            <div md-card-avatar class="example-header-image"></div>
+            <md-card-title>
+              <a class="md-title" [routerLink]="['/product', product._id]" [queryParams]="query">
+                {{product.name}}                          
+              </a>
+            </md-card-title>
+            <md-card-subtitle><span class="old-price" *ngIf="product.oldPrice" >${{product.oldPrice}}</span> ${{product.unitPrice}}</md-card-subtitle>
+          </md-card-header>
+          <img md-card-image [src]="product.images | displayMainThumbs">
+          <md-card-content>
+            <p>
+              {{product.description}}                        
+            </p>
+          </md-card-content>
+          <md-card-actions>
+            <button md-raised-button color="primary" (click)="addCart(product)"><i class="material-icons">add_shopping_cart</i></button>
+          </md-card-actions>
+        </md-card>        
+      </md-grid-tile>
+    </md-grid-list>              
+    
+    <md-toolbar *ngIf="isLoading">  
+      <md-progress-circle mode="indeterminate">...</md-progress-circle>
+    </md-toolbar>
+</div>

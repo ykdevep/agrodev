@@ -1,0 +1,32 @@
+<md-card class="demo-card demo-basic">
+  <md-toolbar class="md-primary" color="primary">
+      Add product
+    </md-toolbar>
+  <md-card-content>
+  
+  <form [formGroup]="addForm" (ngSubmit)="addProduct(); upload.reset()">
+    <fieldset class="form-group">
+      <md-input formControlName="name" placeholder="Product name" #name style="width: 49%" required minlength="2" maxlength="40">
+        <md-hint align="end">{{name.characterCount}} / 40</md-hint>
+      </md-input>
+
+      <md-checkbox formControlName="on_sale" style="width: 10%">On Sale</md-checkbox>     
+
+      <md-input type="number" step="any" formControlName="quantity_in_stock" placeholder="Quantity in Stock" #quantity_in_stock style="width: 20%" required></md-input>
+      <md-input type="number" step="any" formControlName="unit_price" placeholder="Unit price" #unit_price style="width: 20%" required></md-input>
+
+      <md-input formControlName="location"  placeholder="Location" #location required style="width: 29%" minlength="2" maxlength="50">
+        <md-hint align="end">{{location.characterCount}} / 50</md-hint>
+      </md-input>
+
+      <md-textarea formControlName="description" placeholder="Description" #description style="width: 100%; heigth: 100px" minlength="2" maxlength="250" required>
+          <md-hint align="end">{{description.characterCount}} / 250</md-hint>
+      </md-textarea>       
+            
+      <product-upload #upload (onFile)="onImage($event)"></product-upload>      
+          
+      <button md-raised-button color="primary" [disabled]="!addForm.valid" type="submit"><i class="material-icons">add</i>Add</button>
+    </fieldset>
+  </form>
+  </md-card-content>
+</md-card>

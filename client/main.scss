@@ -1,0 +1,139 @@
+@import '../node_modules/@angular/material/core/theming/all-theme';
+
+@include md-core();
+$app-primary: md-palette($md-light-blue, 500, 100, 700);
+$app-accent:  md-palette($md-pink, A200, A100, A400);
+$app-warn:    md-palette($md-red);
+$app-theme: md-light-theme($app-primary, $app-accent, $app-warn);
+@include angular-material-theme($app-theme);
+
+body {
+  background-color: #f8f8f8;
+  font-family: 'Muli', sans-serif;
+  margin: 0;
+}
+
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+.sebm-google-map-container {
+  width: 450px;
+  height: 450px;
+}
+
+.md-whiteframe-z2 {
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+}
+
+html, body, md-sidenav-container{
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#navbar { 
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1020;
+} 
+
+/** A single overlay pane. */
+.cdk-overlay-pane{
+    padding-top: 50px;
+    top: 60px;
+} 
+
+md-progress-circle {
+  position: absolute;
+  left: 45%;
+  bottom: 10%;
+}
+
+md-sidenav {
+  width: 25%;
+  padding-top: 50px;
+}
+
+md-sidenav-layout {
+  min-height: 2000px;
+}
+
+.md-sidenav-layout {
+  padding-top: 50px;
+}
+
+#navbar {
+  md-toolbar{
+    a {
+      color: white;
+      text-decoration: none !important;
+    }
+  }    
+}
+
+hr {
+  width: 100%
+}
+
+.nav {
+  list-style: none;  
+  li {
+    position: relative;
+    float: left;
+    padding: 1px;
+  }
+}
+
+total-price {
+  margin: 5px;
+  font-size: 18px;
+  padding-bottom: 15px;
+}
+
+.subscription {
+  list-style: none;
+  display: inline-flex;
+}
+
+.footer > md-toolbar {
+  height: 70px;
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+@import "./imports/app/product/product-list.component";
+@import "./imports/app/product/product-details.component";
+@import "./imports/app/product/product-upload.component";
+
+@import "./imports/app/route/route-list.component";
+@import "./imports/app/route/route-details.component";
+
+@import "./imports/app/static-pages/about.component";
+@import "./imports/app/static-pages/help.component";
+@import "./imports/app/home/home.component";

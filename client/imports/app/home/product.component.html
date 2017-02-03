@@ -1,0 +1,45 @@
+<md-card class="demo-card demo-basic">
+  <md-toolbar class="md-primary" color="primary">
+    Product Details
+  </md-toolbar>
+  <md-card-content>
+  
+  <form *ngIf="product" (submit)="saveProduct()">
+    <fieldset class="form-group">
+      
+      <h1>{{product.name}}</h1>
+      <h2>Quantity: {{product.quantityInStock}}</h2>
+      <h5 class="old-price" *ngIf="product.oldPrice">${{product.oldPrice}}</h5>
+      <h4>${{product.unitPrice}}</h4>
+      <p>{{product.description}}</p>
+
+      <sebm-google-map
+        [latitude]="lat || centerLat"
+        [longitude]="lng || centerLng"
+        [zoom]="8">
+
+        <sebm-google-map-marker
+          *ngIf="lat && lng"
+          [latitude]="lat"
+          [longitude]="lng">
+        </sebm-google-map-marker>
+
+      </sebm-google-map>
+
+      <div *ngIf="product.images">
+        <ul class="image-list">
+          <li *ngFor="let image of product.images">
+            <figure>
+              <img class="product-main-image" [src]="image | displayMainImage">
+              <figcaption style="text-align: center;"></figcaption>
+            </figure>                                  
+          </li>                  
+        </ul>                
+      </div>
+
+      <button md-raised-button type="button" [routerLink]="['/']" [queryParams]='query'><i class="material-icons">arrow_back</i></button>
+      <button md-raised-button color="primary" (click)="addCart()" type="button"><i class="material-icons">add_shopping_cart</i></button>                 
+    </fieldset>
+  </form>
+ </md-card-content>
+</md-card>

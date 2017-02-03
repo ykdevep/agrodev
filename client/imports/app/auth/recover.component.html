@@ -1,0 +1,23 @@
+<md-card class="demo-card demo-basic">
+  <md-toolbar class="md-primary" color="primary">
+       Recover Your Password
+    </md-toolbar>
+  <md-card-content>
+    <form [formGroup]="recoverForm" #f="ngForm" (ngSubmit)="recover()" layout="column" layout-fill layout-padding layout-margin>
+      <fieldset class="form-group">
+        <md-input required formControlName="email" type="email" placeholder="Email" style="width: 100%"></md-input>
+
+        <div layout="row" layout-align="space-between center">
+          <button md-raised-button class="md-primary" [disabled]="!recoverForm.valid" type="submit" aria-label="Recover">Recover</button>
+        </div>
+      </fieldset>
+    </form>
+
+    <md-divider></md-divider>
+
+    <div layout="row" layout-align="center">
+      <button md-raised-button class="md-warn" style="margin: 5px;" [routerLink]="['/login']">Remember your password?</button>
+    </div>   
+
+  </md-card-content>
+</md-card>

@@ -1,0 +1,75 @@
+<div [hidden]="!user" flex layout="row" class="div ma-purchases-list">
+  <div layout="row" flex>
+    <div flex="50">
+      <div>
+          
+
+        <div class="div md-padding" style="padding-top:5px; padding-bottom:5px;">
+          <div layout-padding layout="row">
+            <md-card class="demo-card demo-basic" *ngIf="isLoading">  
+              <md-progress-bar mode="indeterminate">...</md-progress-bar>
+            </md-card>
+            <md-toolbar>
+              <div layout-padding layout="row" >
+                <p>Count of purchase orders: ({{purchaseSize}})</p>
+              </div>
+              <div layout-padding layout="row" class="fill-remaining-space" style="padding-left: 5px;">
+                 <form [formGroup]="searchForm" (ngSubmit)="search();">
+                    <md-input formControlName="min" type="number" placeholder="Min price" #min style="width: 30%"></md-input>
+                    <md-input formControlName="max" type="number" placeholder="Max price" #max style="width: 30%"></md-input>
+                    <button md-raised-button color="primary" type="submit" style="width: 10%"><i class="material-icons">search</i>Search</button>
+                </form>
+              </div>   
+              
+              <div layout-padding layout="row" style="position: relative; float: left; padding-left: 5px; padding-right: 5px;">
+                  <md-slide-toggle (change)="changeSortOrder($event)">
+                    Sort
+                  </md-slide-toggle>              
+              </div>  
+              
+            </md-toolbar>
+
+          </div>            
+        
+          <div *ngFor="let purchase of purchaseOrders | async">
+            <md-card style="margin-top: 5px; margin-bottom: 5px;">
+              <md-card-content>
+                
+                <h2>
+                  <a class="md-title">Lists of the shipping: {{purchase.createdAt}}</a>
+                </h2>
+
+                <ul style="list-style: none;">
+                    <li style="display: inline-flex; width: 100%" *ngFor="let item of purchase.purchaseItem">
+                        <figure *ngIf="item.quantityInCart > 0" md-tooltip="{{item.product.name}}" tooltip-position="before">
+                            <img width="100%" [src]="item.product.images | displayMainThumbs">
+                            <figcaption></figcaption>
+                        </figure>
+                        <ul style="list-style: none;">
+                          <li><h3>Price: $ {{item.product.unitPrice}}</h3></li>
+                          <li><h3>Quantity in cart: {{item.quantityInCart}}</h3></li>
+                        </ul>
+                    </li>
+                    <li><hr /></li>
+                    <li><h3>Total Price: $ {{purchase.totalPrice}}</h3></li>
+                    <li><h3>Total Tax: $ {{purchase.totalTax}}</h3></li>
+                    <li><h3>Total Balance: $ {{purchase.totalBalance}}</h3></li>                  
+                </ul>    
+
+                
+              </md-card-content>
+            </md-card>
+          </div>
+          <div layout-padding layout="row">
+            <md-toolbar>
+              <pagination-controls (pageChange)="onPageChanged($event)"></pagination-controls>             
+            </md-toolbar>                       
+          </div>  
+        </div>
+      </div>
+     </div>
+    </div>
+  </div>
+</div>
+
+<div [hidden]="user">Login to list your purchase orders</div>

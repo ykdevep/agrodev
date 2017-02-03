@@ -1,0 +1,37 @@
+<hr />
+
+<h4 *ngIf="!shoppingCart.getPurchaseItemsLenght()">Not have purchase items</h4>
+
+<div padding-layout>
+    <ul class="nav">
+        <li *ngFor="let item of shoppingCart.purchaseItems">
+            <figure *ngIf="item.quantityInCart > 0" md-tooltip="{{item.product.name}}" tooltip-position="before">
+                <img width="30%" height="30%" [src]="item.product.images | displayMainThumbs">
+                <figcaption style="display: inline">{{item.product.unitPrice}} * {{item.quantityInCart}} = $ {{item.product.unitPrice * item.quantityInCart}} 
+                    <button [disabled]="flag" md-mini-fab md-icon-button (click)="removeItem(item.product)">
+                        <i class="material-icons">remove_shopping_cart</i>
+                    </button>
+                </figcaption>
+            </figure>
+        </li>
+    </ul>
+</div>
+
+<hr *ngIf="shoppingCart.getPurchaseItemsLenght()" />
+
+<total-price *ngIf="shoppingCart.getPurchaseItemsLenght()"></total-price>
+
+<hr />
+<button *ngIf="shoppingCart.getPurchaseItemsLenght()" style="width: 100%" md-raised-button [disabled]="flag" class="md-raised md-primary" (click)="purchaseButton()"><i class="material-icons">line_weight</i> Purchase</button>
+
+<div padding-layout [hidden]="!flag">
+    <form [formGroup]="purchaseForm" (ngSubmit)="purchase();">
+        <md-input formControlName="shippingAddress" placeholder="Shipping Address" #shippingAddress style="width: 70%"></md-input>
+        <md-input formControlName="shippingCity" placeholder="Shipping City" #shippingCity style="width: 70%"></md-input>
+        <md-input formControlName="shippingZip" placeholder="Shipping Zip" #shippingZip style="width: 70%"></md-input>
+        <md-input formControlName="shippingState" placeholder="Shipping State" #shippingState style="width: 70%"></md-input>
+        <md-input formControlName="shippingCountry" placeholder="Shipping Country" #shippingCountry style="width: 70%"></md-input>
+ 
+        <button md-raised-button color="primary" [disabled]="!purchaseForm.valid" style="width: 100%" type="submit"><i class="material-icons">shopping_basket</i> Submit</button>
+    </form>
+</div>

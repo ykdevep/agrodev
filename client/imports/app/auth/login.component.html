@@ -1,0 +1,26 @@
+<md-card class="demo-card demo-basic">
+  <md-toolbar class="md-primary" color="primary">
+      Sign in with your email
+    </md-toolbar>
+  <md-card-content>
+
+    <form [formGroup]="loginForm" #f="ngForm" (ngSubmit)="login()" layout="column" layout-fill layout-padding layout-margin>
+      <fieldset class="form-group">
+        <md-input required formControlName="email" type="email" placeholder="Email" style="width: 100%"></md-input>
+        <md-input required formControlName="password" type="password" placeholder="Password" style="width: 100%"></md-input>
+      
+      <div layout="row" layout-align="space-between center">
+        <button md-raised-button class="md-primary" type="submit" [disabled]="!loginForm.valid" aria-label="login"><i class="material-icons">lock</i>Sign In</button>
+      </div>
+      </fieldset>
+    </form>
+
+    <md-divider></md-divider>
+
+    <div layout="row" layout-align="center">
+      <button md-raised-button class="md-warn" style="margin: 5px;" [routerLink]="['/recover']"><i class="material-icons">help</i>Forgot password?</button>
+      <button md-raised-button class="md-warn" style="margin: 5px;" [routerLink]="['/signup']"><i class="material-icons">account_circle</i>Need an account?</button>
+    </div>   
+
+  </md-card-content>
+</md-card>

@@ -1,0 +1,41 @@
+<p style="padding-left: 10px;" color="warn" *ngIf="(confirmPassword.value == password.value) && (password.value != '') && (confirmPassword.value != '')">Password match</p>
+<p style="padding-left: 10px;" color="primary" *ngIf="!(confirmPassword.value == password.value) && (password.value != '') && (confirmPassword.value != '')">Password not match</p>
+
+<md-card class="demo-card demo-basic">
+    <md-toolbar layout-padding  class="md-primary" color="primary">
+      Sign up
+    </md-toolbar>
+  <md-card-content>
+    <form [formGroup]="signupForm" #f="ngForm" (ngSubmit)="signup()" layout="column" layout-fill layout-padding layout-margin>
+      <fieldset class="form-group">
+          <div layout-fill layout-padding layout-margin layout-align="center">            
+              <md-input formControlName="email" type="email" placeholder="Email" style="width: 100%"></md-input>
+              <md-input required validateEqual="confirmPassword" reverse="true" formControlName="password" type="password" #password placeholder="Password" style="width: 100%" minlength="7">
+                <md-hint align="end">7 / {{password.characterCount}}</md-hint>
+              </md-input>
+              <md-input required validateEqual="password" formControlName="confirmPassword" type="password" #confirmPassword placeholder="Confirm Password" style="width: 100%" minlength="7">
+                <md-hint align="end">7 / {{confirmPassword.characterCount}}</md-hint>
+                
+              </md-input>
+              <md-input required formControlName="firstName" #firstname type="text" placeholder="Firstname" style="width: 100%" maxlength="25">
+                <md-hint align="end">{{firstname.characterCount}} / 25</md-hint>
+              </md-input>
+              <md-input required formControlName="lastName" #lastname type="text" placeholder="Lastname" style="width: 100%" maxlength="25">
+                <md-hint align="end">{{lastname.characterCount}} / 25</md-hint>
+              </md-input>    
+          </div>
+        
+          <div layout="row" layout-align="space-between center">
+            <button md-raised-button class="md-primary" type="submit" [disabled]="!signupForm.valid" aria-label="login"><i class="material-icons">person_add</i>Sign Up</button>
+          </div>
+        </fieldset>
+      </form>      
+
+      <md-divider></md-divider>
+
+      <div layout="row" layout-align="center">
+        <button md-raised-button class="md-warn" style="margin: 5px;" [routerLink]="['/login']"><i class="material-icons">lock_open</i>Already a user?</button>
+      </div>   
+
+  </md-card-content>
+</md-card>
