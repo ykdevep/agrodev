@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 
@@ -8,7 +9,8 @@ import { MeteorObservable } from 'meteor-rxjs';
 import { InjectUser } from "angular2-meteor-accounts-ui";
 
 import { MouseEvent } from "angular2-google-maps/core";
-import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
+import {MdSnackBar} from '@angular/material';
+
 import { DialogsService } from '../dialog/dialogs.service';
 
 import { Routes } from '../../../../both/collections/routes.collection';
@@ -37,7 +39,8 @@ export class RouteDetailsComponent implements OnInit, OnDestroy {
     centerLat: number = 19.433789301234;
     centerLng: number = -99.1351318359375;
     
-    constructor(private routes: ActivatedRoute,
+    constructor(
+         private routes: ActivatedRoute,
          private snackBar: MdSnackBar,
          private dialog: DialogsService,
          private viewContainerRef: ViewContainerRef) {}
@@ -65,7 +68,7 @@ export class RouteDetailsComponent implements OnInit, OnDestroy {
     }
 
     get isOwner(): boolean {
-        return this.route && this.user && this.user._id === this.route.owner;
+        return this.route && this.user && this.user._id === this.route.signature.createdBy;
     }
 
     saveRoute() {
@@ -73,19 +76,12 @@ export class RouteDetailsComponent implements OnInit, OnDestroy {
             this.dialog.alert("Alert", "Please log in to change this route", false,this.viewContainerRef)
         return;
         }
-        
-        Routes.update(this.route._id, {
-            $set: {
-                name: this.route.name,
-                startRoute: this.route.startRoute,
-                finalRoute: this.route.finalRoute,
-                price: this.route.price,
-                description: this.route.description,                
-            }
+
+        MeteorObservable.call('update_route', this.route).subscribe(() => {
+            this.snackBar.open(`Route successfully updated!`, 'X', {duration: 1200});
+        }, (error) => {
+            this.snackBar.open(`Failed to update route! ${error}`, 'X', {duration: 1200});
         });
-        let config = new MdSnackBarConfig();
-        config.duration = 3000;
-        this.snackBar.open('Route edited!', 'X', config);
     }
 
     ngOnDestroy(){
@@ -118,6 +114,5 @@ export class RouteDetailsComponent implements OnInit, OnDestroy {
     markerDragEndFinal($event: MouseEvent) {
         this.route.finalRoute.lat = $event.coords.lat;
         this.route.finalRoute.lng = $event.coords.lng;
-    }   
-     
+    }  
 }

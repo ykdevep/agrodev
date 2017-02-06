@@ -1,85 +1,71 @@
-<!-- this is default navbar -->
-<nav id="navbar">
-  <md-toolbar color="primary">
-    <a routerLink="/" class="logo">Logo</a>
+<!-- this is default layout -->
+<div class="flex-container">
+  <div class="flex-item" fxFlex="100%" fxFlex.xs="100%">
+    <!-- this is default navbar -->
+    <nav id="navbar">
+      <md-toolbar color="primary" fxLayout="column" fxLayout.xs="column">
+        <a routerLink="/" class="logo">Logo</a>
 
-    <ul class="nav" [hidden]="!user">
-      <li><a md-menu-item [routerLink]="['/user/products']" class="md-title"><i class="material-icons">store</i> My Products</a> </li>
-      <li><a md-menu-item [routerLink]="['/user/routes']" class="md-title"><i class="material-icons">add_location</i> My Routes</a> </li>
-      <li><a md-menu-item [routerLink]="['/user/purchases']" class="md-title"><i class="material-icons">local_shipping</i> My Shippings</a> </li>
-    </ul> 
+        <ul class="nav" fxLayout="row" fxLayout.xs="column" [hidden]="!user">
+          <li><a md-menu-item [routerLink]="['/user/products']" class="md-title"><i class="material-icons">store</i> My Products</a> </li>
+          <li><a md-menu-item [routerLink]="['/user/routes']" class="md-title"><i class="material-icons">add_location</i> My Routes</a> </li>
+          <li><a md-menu-item [routerLink]="['/user/purchases']" class="md-title"><i class="material-icons">local_shipping</i> My Shippings</a> </li>
+        </ul> 
 
-    <span class="fill-remaining-space"></span> 
+        <span class="fill-remaining-space"></span> 
 
-    <button md-mini-fab md-icon-button (click)="right.toggle()">
-      <i class="material-icons">shopping_cart</i>
-    </button>
+        <button md-mini-fab md-icon-button (click)="right.toggle()">
+          <i class="material-icons">shopping_cart</i>
+        </button>
 
-    <total-price></total-price>    
+        <total-price></total-price>    
 
-    <a md-menu-item id="user-menu" [md-menu-trigger-for]="menu">  
-      <span [hidden]="!user">{{ user | displayName }}</span>       
-      <i class="material-icons">more_vert</i>    
-    </a>   
-  </md-toolbar>
-</nav>
+        <a md-menu-item id="user-menu" [md-menu-trigger-for]="menu">  
+          <span [hidden]="!user">{{ user | displayName }}</span>       
+          <i class="material-icons">more_vert</i>    
+        </a>   
+      </md-toolbar>
+    </nav>
 
-<!-- this is default user menu -->
-<md-menu #menu="mdMenu" x-position="before">        
-    <div [hidden]="user">          
-      <a md-menu-item [routerLink]="['/login']"><i class="material-icons">lock_open</i>Login</a>
-      <a md-menu-item [routerLink]="['/signup']"><i class="material-icons">account_circle</i>Sign up</a>
-    </div>
-    <div [hidden]="!user">     
-      <a md-menu-item (click)="logout()"><i class="material-icons">lock</i>Logout</a>
-    </div>        
-</md-menu>
-
-<!-- this is default content -->
-<md-sidenav-layout layout-padding>
-  <md-sidenav #right align="end" layout-padding>
-    <div class="flex-container" 
-        fxLayout="row" 
-        fxLayout.xs="column"
-        fxLayoutAlign="center center"
-        fxLayoutAlign.xs="start">
-        <div class="flex-item" fxFlex="95%" fxFlex.xs="100%">
-          <h2><i class="material-icons">shopping_cart</i> Shopping Cart</h2>
-          <purchase-order></purchase-order>   
+    <!-- this is default user menu -->
+    <md-menu #menu="mdMenu" x-position="before">        
+        <div [hidden]="user">          
+          <a md-menu-item [routerLink]="['/login']"><i class="material-icons">lock_open</i>Login</a>
+          <a md-menu-item [routerLink]="['/signup']"><i class="material-icons">account_circle</i>Sign up</a>
         </div>
-    </div>
+        <div [hidden]="!user">     
+          <a md-menu-item (click)="logout()"><i class="material-icons">lock</i>Logout</a>
+        </div>        
+    </md-menu>
+  </div>
+  
+  <!-- this is default content -->
+  <md-sidenav-layout class="flex-item" fxFlex="100%" fxFlex.xs="100%">
+    <md-sidenav #right align="end">          
+        <h2><i class="material-icons">shopping_cart</i> Shopping Cart</h2>
+        <purchase-order></purchase-order>  
+        
     </md-sidenav>
-  <md-sidenav-container>   
-
-    <!-- this is default layout -->
-    <div class="flex-container" 
-        fxLayout="row" 
-        fxLayout.xs="column"
-        fxLayoutAlign="center center"
-        fxLayoutAlign.xs="start">
-      <div class="flex-item" fxFlex="95%" fxFlex.xs="100%">
-        <!-- primary content -->
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-  </md-sidenav-container> 
-</md-sidenav-layout>
+    <md-sidenav-container>   
+      <!-- primary content -->
+      <router-outlet></router-outlet>      
+    </md-sidenav-container> 
+  </md-sidenav-layout>
+</div>
 
 <!-- this is default subscription bar -->
-<nav>
-  <md-toolbar>
-      <ul class="subscription">
-        <li><a md-menu-item><i class="material-icons">phone</i>90899 345 2511</a></li>
-        <li><a md-menu-item><i class="material-icons">airport_shuttle</i>Ir al super</a></li>
-        <li><a md-menu-item [routerLink]="['/about']"><i class="material-icons">supervisor_account</i>About</a></li>
-        <li><a md-menu-item [routerLink]="['/help']"><i class="material-icons">help</i>Help</a></li>
-      </ul>
-  </md-toolbar>
-</nav>
-
+<nav class="flex-item">        
+  <ul class="subscription" fxLayout="row" fxLayout.xs="column">
+    <li><a md-menu-item><i class="material-icons">phone</i>90899 345 2511</a></li>
+    <li><a md-menu-item><i class="material-icons">airport_shuttle</i>Ir al super</a></li>
+    <li><a md-menu-item [routerLink]="['/about']"><i class="material-icons">supervisor_account</i>About</a></li>
+    <li><a md-menu-item [routerLink]="['/help']"><i class="material-icons">help</i>Help</a></li>
+  </ul> 
+</nav>  
+  
 <!-- this is default footer -->
-<footer class="footer">
+<footer class="flex-item">
   <md-toolbar color="primary">
-      <h5>Copyright &#169; All Rigth Reserved - Online Agro-Devep {{year}}</h5>
+      <h5>Copyright &#169; All Rigth Reserved - Online Agro Store {{year}}</h5>
   </md-toolbar>
 </footer>

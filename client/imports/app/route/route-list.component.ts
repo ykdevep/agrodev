@@ -64,7 +64,7 @@ export class RouteListComponent implements OnInit, OnDestroy {
   ) {}
 
   isOwner(route: Route): boolean {
-    return this.user && this.user._id === route.owner;
+    return this.user && this.user._id === route.signature.createdBy;
   }
 
   ngOnInit() {

@@ -31,11 +31,9 @@ export class LoginComponent implements OnInit {
   login() {
     if (this.loginForm.valid) {
       Meteor.loginWithPassword(this.loginForm.value.email, this.loginForm.value.password, (err) => {
-        let config = new MdSnackBarConfig();
-        config.duration = 3000;
         if (err) {
           this.zone.run(() => {
-            this.snackbar.open(err, "X", config);
+            this.snackbar.open(err, "X", {duration: 1200});
           });
         } else {
           this.router.navigate(['/']);

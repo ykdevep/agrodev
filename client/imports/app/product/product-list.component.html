@@ -1,78 +1,97 @@
-<div [hidden]="!user" flex layout="row" class="div ma-products-list">
-  <div layout="row" flex>
-    <div flex="50">
-      <div>
-        <div class="div new-product-form-container">
-          <product-form ></product-form> 
-        </div>     
-
-        <div class="div md-padding" style="padding-top:5px; padding-bottom:5px;">
-          <div layout-padding layout="row">
-            <md-card class="demo-card demo-basic" *ngIf="isLoading">  
-              <md-progress-bar mode="indeterminate">...</md-progress-bar>
-            </md-card>
-            <md-toolbar>
-              <div layout-padding layout="row" >
-                <p>Count of products: ({{productsSize}})</p>
-              </div>
-              <div layout-padding layout="row" class="fill-remaining-space" style="padding-left: 5px;">
-                 <form [formGroup]="searchForm" (ngSubmit)="search();">
-                    <md-input formControlName="name" placeholder="Search product by name" #name style="width: 60%"></md-input>
-                    <button md-raised-button color="primary" type="submit" style="width: 10%"><i class="material-icons">search</i>Search</button>
-                </form>
-              </div>   
-              
-              <div layout-padding layout="row" style="position: relative; float: left; padding-left: 5px; padding-right: 5px;">
-                  <md-slide-toggle (change)="changeSortOrder($event)">
-                    Sort
-                  </md-slide-toggle>                                
-              </div>  
-              
-            </md-toolbar>
-
-          </div>            
-        
-          <div *ngFor="let product of products | async">
-            <md-card style="margin-top: 5px; margin-bottom: 5px;">
-              <md-card-content>
-                
-                <h2>
-                  <a class="md-title" [routerLink]="['/user/product', product._id]" [queryParams]="query">{{product.name}}</a>
-                </h2>
-                <h3 *ngIf="product.onSale">On sale</h3>
-                <h3 *ngIf="!product.onSale">Is dont' on sale</h3>
-
-                <h3>Unit Price: {{product.unitPrice}}</h3>
-                <h3>Quantity in Stock: {{product.quantityInStock}}</h3>
-                <h4>Location: {{product.location.name}} (latitude {{product.location.lat}} x longitude {{product.location.lng}})</h4>
-
-                <p class="ma-description" style="margin-bottom:35px; margin-top: 6px;">
-                  {{product.description}}
-                </p>
-
-                <div *ngIf="product.images">
-                  <ul class="image-list">
-                    <li *ngFor="let image of product.images">
-                      <img class="product-main-image" [src]="image | displayMainImage">                      
-                    </li>                  
-                  </ul>                
-                </div>
-                  
-                <button md-raised-button [hidden]="!isOwner(product)"  color="warn" (click)="removeProduct(product)"><i class="material-icons">delete_forever</i>Delete</button>
-                
-              </md-card-content>
-            </md-card>
-          </div>
-          <div layout-padding layout="row">
-            <md-toolbar>
-              <pagination-controls *ngIf="productsSize > 10" (pageChange)="onPageChanged($event)"></pagination-controls>             
-            </md-toolbar>                       
-          </div>  
-        </div>
-      </div>
-     </div>
+<div class="flex-container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="start">
+  <div  class="md-whiteframe-z2" fxFlex="100%" fxFlex.xs="100%" layout-padding layout-margin>
+    <div class="row">
+      <product-form ></product-form>
     </div>
+
+    <div class="row">
+      <md-toolbar>
+          <p>Count of routes: ({{productsSize}})</p> 
+          
+          <form [formGroup]="searchForm" (ngSubmit)="search();">
+              <md-input formControlName="name" placeholder="Search product by name" #name></md-input>
+              <button md-raised-button color="primary" type="submit"><i class="material-icons">search</i>Search</button>
+          </form>          
+
+          <span class="fill-remaining-space"></span>
+
+          <md-slide-toggle (change)="changeSortOrder($event)">
+            Sort by name
+          </md-slide-toggle>        
+        </md-toolbar>
+      </div>    
+
+     <div class="row" fxLayout="column" fxLayout.xs="column">
+        <md-card *ngFor="let product of products | async">
+          <md-card-content  fxLayout="row" fxLayout.xs="column" fxFlex="100%" fxFlex.xs="100%">      
+            <div class="flex-item" fxFlex="50%" fxFlex.xs="100%">                 
+              <h2>
+                <a class="md-title" [routerLink]="['/user/product', product._id]" [queryParams]="query">{{product.name}}</a>
+              </h2>
+              <h3 *ngIf="product.onSale">On sale</h3>
+              <h3 *ngIf="!product.onSale">Is dont' on sale</h3>
+
+              <h3>Quantity in Stock: {{product.quantityInStock}}</h3>
+              
+              <h3>$ {{product.unitPrice}}</h3>
+
+              <ul class="nav" fxLayout="row" fxLayout.xs="row">
+                <li *ngFor="let oldsPrice of product.oldsPrice; let lastOldPrice = last">
+                  <span *ngIf="!lastOldPrice" class="old-price"> ${{oldsPrice}}, </span>
+                  <span *ngIf="lastOldPrice" class="old-price"> ${{oldsPrice}} </span>                                                  
+                </li>                 
+              </ul
+              
+              <p class="ma-description" style="margin-bottom:35px; margin-top: 6px;">
+                {{product.description}}
+              </p>
+
+              <div class="row" *ngIf="product.images">
+                <ul class="nav" fxLayout="row" fxLayout.xs="column">
+                  <li *ngFor="let image of product.images">
+                    <figure>
+                      <img width="300px" height="200px" [src]="image | displayMainImage">
+                    </figure>                                  
+                  </li>                 
+                </ul>
+              </div>                
+                              
+              <button md-raised-button [hidden]="!isOwner(product)"  color="warn" (click)="removeProduct(product)"><i class="material-icons">delete_forever</i>Delete</button>
+            </div>
+            <div class="flex-item" fxFlex="50%" fxFlex.xs="100%"> 
+              <h4>{{product.location.name}}</h4>       
+              <sebm-google-map
+                [latitude]="product.location.lat"
+                [longitude]="product.location.lng"
+                [zoom]="6">
+
+                <sebm-google-map-marker
+                  *ngIf="product.location.lat && product.location.lng"
+                  [latitude]="product.location.lat"
+                  [longitude]="product.location.lng"
+                  [label]="'L'"
+                  [title]="'Product location'"
+                  [markerDraggable]="False">
+                </sebm-google-map-marker>
+                
+              </sebm-google-map>
+            </div>
+          </md-card-content>
+        </md-card>       
+      </div>
+
+      <div class="row" *ngIf="isLoading">
+        <md-toolbar>
+          <md-progress-bar mode="indeterminate">...</md-progress-bar>             
+        </md-toolbar>
+      </div>      
+
+      <div class="row">
+        <md-toolbar>
+          <pagination-controls *ngIf="routesSize > 10" (pageChange)="onPageChanged($event)"></pagination-controls>             
+        </md-toolbar>
+      </div>   
+
+      <div [hidden]="user">You need to login to create new routes!</div>         
   </div>
 </div>
-
-<div [hidden]="user">You need to login to create new products!</div>

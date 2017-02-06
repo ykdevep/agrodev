@@ -22,9 +22,9 @@ function buildQuery(routeId?: string, name?: string): Object {
      { 
       // current user is the owner
       $and: [{
-        owner: this.userId 
+        'signature.createdBy': this.userId 
       }, {
-        owner: {
+        'signature.createdBy': {
           $exists: true
         }
       }]

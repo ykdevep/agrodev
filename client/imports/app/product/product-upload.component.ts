@@ -1,14 +1,15 @@
 import {Component, OnInit, EventEmitter, Output} from '@angular/core';
-
-import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
-
-import template from './product-upload.component.html';
-
-import { upload } from '../../../../both/methods/images.methods';
 import {Subject, Subscription, Observable} from "rxjs";
+
+import {MdSnackBar} from '@angular/material';
+
 import {MeteorObservable} from "meteor-rxjs";
+
+import {upload} from '../../../../both/methods/images.methods';
 import {Thumb} from "../../../../both/models/image.model";
 import {Thumbs} from "../../../../both/collections/images.collection";
+
+import template from './product-upload.component.html';
 
 @Component({
   selector: 'product-upload',
@@ -54,7 +55,7 @@ export class ProductUploadComponent implements OnInit {
 
   onFileDrop(file: File): void {
     this.uploading = true;
-    this.snackBar.open('Uploading...', 'X');
+    this.snackBar.open('Uploading...', 'X', {duration: 1200});
     
     upload(file)
       .then((result) => {
@@ -63,7 +64,7 @@ export class ProductUploadComponent implements OnInit {
       })
       .catch((error) => {
         this.uploading = false;
-        this.snackBar.open('Something went wrong!', 'X');
+        this.snackBar.open('Something went wrong!', 'X', {duration: 1200});
       });
   }
 

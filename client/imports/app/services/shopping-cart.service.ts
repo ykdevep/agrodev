@@ -55,8 +55,6 @@ export class ShoppingCartService{
             if (this.purchaseOrder){
                 this.totalPrice = this.purchaseOrder.totalPrice;
                 this.purchaseItems = this.purchaseOrder.purchaseItem;
-            }else{
-
             }                    
         });
     }
@@ -67,13 +65,13 @@ export class ShoppingCartService{
     addPurchaseItem(prod: Product, userId: string): void{
 
         const options: Options = {
-            createdBy: userId,
+            "signature.createdBy": userId,
             status: 0      
         };
 
         this.purchaseOrderSubscription = MeteorObservable.subscribe<PurchaseOrder>("purchaseOrderByUserId", options).subscribe(() => {
 
-            this.purchaseOrder = PurchaseOrders.findOne({createdBy: userId, status: 0}); 
+            this.purchaseOrder = PurchaseOrders.findOne({'signature.createdBy': userId, status: 0}); 
 
             let flag = true;
             this.purchaseItems.forEach(element => {
@@ -110,15 +108,6 @@ export class ShoppingCartService{
             } else {
 
                 this.purchaseOrder = {
-                    createdBy: userId,
-                    updatedBy: userId,     
-                    createdAt: new Date(),
-                    updatedAt: new Date(),               
-                    shippingAddress: "",
-                    shippingCity: "",
-                    shippingCountry: "",
-                    shippingState: "",
-                    shippingZip: "",
                     totalBalance: this.totalBalance,
                     totalPrice: this.totalPrice,
                     totalTax: this.totalTax,

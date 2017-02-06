@@ -1,32 +1,55 @@
-<md-card class="demo-card demo-basic">
-  <md-toolbar class="md-primary" color="primary">
-      Add product
-    </md-toolbar>
-  <md-card-content>
-  
-  <form [formGroup]="addForm" (ngSubmit)="addProduct(); upload.reset()">
-    <fieldset class="form-group">
-      <md-input formControlName="name" placeholder="Product name" #name style="width: 49%" required minlength="2" maxlength="40">
-        <md-hint align="end">{{name.characterCount}} / 40</md-hint>
-      </md-input>
+<div class="md-whiteframe-z2" fxFlex="100%" fxFlex.xs="100%" layout-padding layout-margin>        
+  <md-toolbar color="primary">
+    Add product
+  </md-toolbar>        
 
-      <md-checkbox formControlName="on_sale" style="width: 10%">On Sale</md-checkbox>     
+  <div class="row">
+    <form [formGroup]="addForm" (ngSubmit)="addProduct(); upload.reset()">  
+      <div class="row"  fxLayout="row" fxLayout.xs="column">
+        <div class="flex-item" fxFlex="50%" fxFlex.xs="100%">        
+          <md-input formControlName="name" placeholder="Product name" #name style="width: 86%" required minlength="2" maxlength="50">
+            <md-hint align="end">{{name.characterCount}} / 50</md-hint>
+          </md-input>
 
-      <md-input type="number" step="any" formControlName="quantity_in_stock" placeholder="Quantity in Stock" #quantity_in_stock style="width: 20%" required></md-input>
-      <md-input type="number" step="any" formControlName="unit_price" placeholder="Unit price" #unit_price style="width: 20%" required></md-input>
+          <md-checkbox formControlName="on_sale" style="width: 10%">On Sale</md-checkbox>     
 
-      <md-input formControlName="location"  placeholder="Location" #location required style="width: 29%" minlength="2" maxlength="50">
-        <md-hint align="end">{{location.characterCount}} / 50</md-hint>
-      </md-input>
+          <md-input type="number" step="any" formControlName="quantity_in_stock" placeholder="Quantity" #quantity_in_stock style="width: 15%" required></md-input>
+          <md-input type="number" step="any" formControlName="unit_price" placeholder="Unit price" #unit_price style="width: 15%" required></md-input>
 
-      <md-textarea formControlName="description" placeholder="Description" #description style="width: 100%; heigth: 100px" minlength="2" maxlength="250" required>
-          <md-hint align="end">{{description.characterCount}} / 250</md-hint>
-      </md-textarea>       
-            
-      <product-upload #upload (onFile)="onImage($event)"></product-upload>      
-          
-      <button md-raised-button color="primary" [disabled]="!addForm.valid" type="submit"><i class="material-icons">add</i>Add</button>
-    </fieldset>
-  </form>
-  </md-card-content>
-</md-card>
+          <md-input formControlName="location"  placeholder="Location" #location required style="width: 68%" minlength="2" maxlength="40">
+            <md-hint align="end">{{location.characterCount}} / 40</md-hint>
+          </md-input>
+
+          <md-textarea formControlName="description" placeholder="Description" #description style="width: 100%;" minlength="2" maxlength="250" required>
+              <md-hint align="end">{{description.characterCount}} / 250</md-hint>
+          </md-textarea>
+        </div>
+        
+        <div class="flex-item map" fxFlex="50%" fxFlex.xs="100%">        
+          <sebm-google-map
+            [latitude]="lat"
+            [longitude]="lng"
+            [zoom]="6"
+            (mapClick)="mapClicked($event)">
+
+            <sebm-google-map-marker
+              *ngIf="lat && lng"
+              [latitude]="lat"
+              [longitude]="lng">
+            </sebm-google-map-marker>
+
+          </sebm-google-map>
+        </div>
+      </div>
+
+      <div class="row">
+        <product-upload #upload (onFile)="onImage($event)"></product-upload>
+      </div>
+
+      <div class="row">
+        <button md-raised-button color="primary" [disabled]="!addForm.valid" type="submit"><i class="material-icons">add</i>Add</button>
+      </div>
+      
+    </form>                
+  </div>           
+</div>

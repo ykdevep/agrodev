@@ -32,3 +32,11 @@ declare var Fake: {
     sentence(words: number): string;
 }
 
+declare module 'meteor/jalik:roles' {
+  
+  interface Roles {
+    start: () => void;
+  }
+
+  export var Roles;
+}

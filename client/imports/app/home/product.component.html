@@ -1,45 +1,61 @@
-<md-card class="demo-card demo-basic">
-  <md-toolbar class="md-primary" color="primary">
-    Product Details
-  </md-toolbar>
-  <md-card-content>
-  
-  <form *ngIf="product" (submit)="saveProduct()">
-    <fieldset class="form-group">
-      
-      <h1>{{product.name}}</h1>
-      <h2>Quantity: {{product.quantityInStock}}</h2>
-      <h5 class="old-price" *ngIf="product.oldPrice">${{product.oldPrice}}</h5>
-      <h4>${{product.unitPrice}}</h4>
-      <p>{{product.description}}</p>
+<div class="flex-container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="start">
+  <div class="md-whiteframe-z2" fxFlex="90%" fxFlex.xs="100%" layout-padding layout-margin>        
+    <md-toolbar color="primary">
+      Product Details
+    </md-toolbar>        
 
-      <sebm-google-map
-        [latitude]="lat || centerLat"
-        [longitude]="lng || centerLng"
-        [zoom]="8">
+    <div class="row">
+      <form *ngIf="product" (submit)="saveProduct()">  
+        <div class="row"  fxLayout="row" fxLayout.xs="column">
+          <div class="flex-item" fxFlex="50%" fxFlex.xs="100%">        
+            <h1 class="md-title">{{product.name}}</h1>
+            <h2>{{product.quantityInStock}}</h2>            
+            <h3>${{product.unitPrice}}</h3>
+            <ul class="nav" fxLayout="row" fxLayout.xs="row">
+              <li *ngFor="let oldsPrice of product.oldsPrice; let lastOldPrice = last">
+                <span *ngIf="!lastOldPrice" class="old-price"> ${{oldsPrice}}, </span>
+                <span *ngIf="lastOldPrice" class="old-price"> ${{oldsPrice}} </span>                                                  
+              </li>                 
+            </ul
+            <p>{{product.description}}</p>
+          </div>
+          
+          <div class="flex-item" fxFlex="50%" fxFlex.xs="100%">        
+            <sebm-google-map
+              [latitude]="lat"
+              [longitude]="lng"
+              [zoom]="6">
 
-        <sebm-google-map-marker
-          *ngIf="lat && lng"
-          [latitude]="lat"
-          [longitude]="lng">
-        </sebm-google-map-marker>
+              <sebm-google-map-marker
+                *ngIf="lat && lng"
+                [latitude]="lat"
+                [longitude]="lng">
+              </sebm-google-map-marker>
 
-      </sebm-google-map>
+            </sebm-google-map>
+          </div>
+        </div>
 
-      <div *ngIf="product.images">
-        <ul class="image-list">
-          <li *ngFor="let image of product.images">
-            <figure>
-              <img class="product-main-image" [src]="image | displayMainImage">
-              <figcaption style="text-align: center;"></figcaption>
-            </figure>                                  
-          </li>                  
-        </ul>                
-      </div>
+        <hr />
 
-      <button md-raised-button type="button" [routerLink]="['/']" [queryParams]='query'><i class="material-icons">arrow_back</i></button>
-      <button md-raised-button color="primary" (click)="addCart()" type="button"><i class="material-icons">add_shopping_cart</i></button>                 
-    </fieldset>
-  </form>
- </md-card-content>
-</md-card>
+        <div class="row" *ngIf="product.images">
+          <ul class="nav" fxLayout="row" fxLayout.xs="column">
+            <li *ngFor="let image of product.images">
+              <figure>
+                <img width="300px" height="200px" [src]="image | displayMainImage">
+              </figure>                                  
+            </li>                 
+          </ul>
+        </div>
+
+        <hr />
+
+        <div class="row">
+          <button md-raised-button type="button" [routerLink]="['/']" [queryParams]='query'><i class="material-icons">arrow_back</i></button>
+          <button md-raised-button color="primary" (click)="addCart()" type="button"><i class="material-icons">add_shopping_cart</i></button>
+        </div>
+
+      </form>                
+    </div>           
+  </div>
+</div>

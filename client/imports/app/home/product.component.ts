@@ -12,6 +12,7 @@ import 'rxjs/add/operator/map';
 
 import { Products } from '../../../../both/collections/products.collection';
 import { Images } from '../../../../both/collections/images.collection';
+import { Thumbs } from '../../../../both/collections/images.collection';
 import { Product } from '../../../../both/models/product.model';
 
 import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
@@ -38,13 +39,10 @@ export class ProductComponent implements OnInit, OnDestroy {
     productSub: Subscription;
 
     imagesSub: Subscription;
-    //thumbsSub: Subscription;
+    thumbsSub: Subscription;
 
     user: Meteor.User;
-    // Default center Palo Alto coordinates.
-    centerLat: number = 37.4292;
-    centerLng: number = -122.1381;
-    
+        
     constructor(
         private route: ActivatedRoute,
         private snackBar: MdSnackBar,
@@ -54,7 +52,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     ngOnInit(){
         this.imagesSub = MeteorObservable.subscribe('images').subscribe();
-       // this.thumbsSub = MeteorObservable.subscribe('thumbs').subscribe();
+        this.thumbsSub = MeteorObservable.subscribe('thumb').subscribe();
 
         this.paramsSub = this.route.params
             .map(params => params)
@@ -77,52 +75,41 @@ export class ProductComponent implements OnInit, OnDestroy {
             });
     }
 
-    get isOwner(): boolean {
-        return this.product && this.user && this.user._id === this.product.owner;
-    }
-
-    /**
+  /**
    * Adding producto to shopping cart
    */
-  addCart(): void{
-        
-    if (!this.user){
-      this.dialog.alert("Alert", "Please log in to purchase", true, this.viewContainerRef);
-    }else{
-
-      let config = new MdSnackBarConfig();
-      config.duration = 5000;
-
-      if (this.productSub){
-          this.productSub.unsubscribe();
-      }
-
-      this.productSub = MeteorObservable.subscribe('productExitsInStock', this.product._id).subscribe(() => {
-        this.product = Products.findOne(this.product._id);
-
-        if (this.product.quantityInStock > 0){
-          this.shoppingCart.addPurchaseItem(this.product, this.user._id);
-          this.snackBar.open('Adding Product to shopping cart...', 'X', config);
+    addCart(): void{
+            
+        if (!this.user){
+            this.dialog.alert("Alert", "Please log in to purchase", true, this.viewContainerRef);
         } else {
-          this.snackBar.open('Quantity in stock is zero.', 'X', config);
-        }
-      });      
-    }        
-  }
+
+        this.productSub = MeteorObservable.subscribe('productExitsInStock', this.product._id).subscribe(() => {
+            this.product = Products.findOne(this.product._id);
+
+            if (this.product.quantityInStock > 0){
+                this.shoppingCart.addPurchaseItem(this.product, this.user._id);
+                this.snackBar.open('Adding Product to shopping cart...', 'X');
+            } else {
+                this.snackBar.open('Quantity in stock is zero.', 'X');
+            }
+        });      
+        }        
+    }
+
+   get lat(): number {
+        return this.product.location.lat
+    }
+
+   get lng(): number {
+        return this.product.location.lng;
+    }
 
     ngOnDestroy(){
         this.paramsSub.unsubscribe();
         this.querySub.unsubscribe();
         this.productSub.unsubscribe();
         this.imagesSub.unsubscribe();
-       // this.thumbsSub.unsubscribe();
-    }
-
-    get lat(): number {
-        return this.product && this.product.location.lat;
-    }    
-
-    get lng(): number {
-        return this.product && this.product.location.lng;
-    }  
+        this.thumbsSub.unsubscribe();
+    }   
 }

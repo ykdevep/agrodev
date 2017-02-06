@@ -18,8 +18,8 @@ body {
 }
 
 .sebm-google-map-container {
-  width: 450px;
-  height: 450px;
+  width: 600px;
+  height: 300px;
 }
 
 .md-whiteframe-z2 {
@@ -29,7 +29,6 @@ body {
 html, body, md-sidenav-container{
   margin: 0;
   width: 100%;
-  height: 100%;
 }
 
 #navbar { 
@@ -53,16 +52,13 @@ md-progress-circle {
 }
 
 md-sidenav {
-  width: 25%;
+  width: 30%;
   padding-top: 50px;
 }
 
 md-sidenav-layout {
-  min-height: 2000px;
-}
-
-.md-sidenav-layout {
-  padding-top: 50px;
+  padding: 70px;
+  min-height: 900px;
 }
 
 #navbar {
@@ -78,13 +74,24 @@ hr {
   width: 100%
 }
 
+.map {
+  margin-left: 20px;
+}
+
 .nav {
   list-style: none;  
+  padding-left: 0px;
   li {
-    position: relative;
-    float: left;
-    padding: 1px;
+    padding: 5px;
   }
+}
+
+div.row {
+  padding: 5px;
+}
+
+md-card {
+  margin: 5px;
 }
 
 total-price {
@@ -95,10 +102,10 @@ total-price {
 
 .subscription {
   list-style: none;
-  display: inline-flex;
+  padding-left: 0px;
 }
 
-.footer > md-toolbar {
+footer.flex-item > md-toolbar {
   height: 70px;
 }
 

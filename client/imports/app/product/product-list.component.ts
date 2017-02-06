@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
-import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
+import {MdSnackBar} from '@angular/material';
 import { DialogsService } from '../dialog/dialogs.service';
 
 import { Subscription } from 'rxjs/Subscription';
@@ -66,7 +66,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ) {}
 
   isOwner(product: Product): boolean {
-    return this.user && this.user._id === product.owner;
+    return this.user && this.user._id === product.signature.createdBy;
   }
 
   ngOnInit() {
@@ -137,28 +137,24 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   removeProduct(product: Product): void {
     this.dialog.confirm("Alert", "Are you sure you want to delete this product?", this.viewContainerRef).subscribe(result => {
-      let config = new MdSnackBarConfig();
-      config.duration = 3000;
-
+      
       if(result){
         product.images.forEach(element => {
           Images.remove({_id: element});
         });
         Products.remove(product._id);
-        this.snackBar.open('Product deleted!', 'X', config);
+        this.snackBar.open('Product deleted!', 'X', {duration: 1200});
       }
     });        
   }
 
   search(): void {
-    let config = new MdSnackBarConfig();
-    config.duration = 3000;
     if (this.searchForm.valid){    
       this.curPage.next(1);      
       this.name.next(this.searchForm.value.name); 
-      this.snackBar.open('Searching...', 'X', config);
+      this.snackBar.open('Searching...', 'X', {duration: 1200});
     }else{
-      this.snackBar.open('Form have errors!', 'X', config);
+      this.snackBar.open('Form have errors!', 'X', {duration: 1200});
     }    
   }  
 

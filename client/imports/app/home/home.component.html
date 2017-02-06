@@ -20,7 +20,6 @@
       <md-grid-tile *ngFor="let product of products | async">
         <md-card class="product-card">
           <md-card-header>
-            <div md-card-avatar class="example-header-image"></div>
             <md-card-title>
               <a class="md-title" [routerLink]="['/product', product._id]" [queryParams]="query">
                 {{product.name}}                          
@@ -41,7 +40,5 @@
       </md-grid-tile>
     </md-grid-list>              
     
-    <md-toolbar *ngIf="isLoading">  
-      <md-progress-circle mode="indeterminate">...</md-progress-circle>
-    </md-toolbar>
+    <md-progress-circle *ngIf="isLoading" mode="indeterminate">...</md-progress-circle>
 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 
@@ -8,7 +9,7 @@ import { MeteorObservable } from 'meteor-rxjs';
 import { InjectUser } from "angular2-meteor-accounts-ui";
 
 import { MouseEvent } from "angular2-google-maps/core";
-import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
+import { MdSnackBar } from '@angular/material';
 import { DialogsService } from '../dialog/dialogs.service';
 
 import { Products } from '../../../../both/collections/products.collection';
@@ -72,7 +73,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     }
 
     get isOwner(): boolean {
-        return this.product && this.user && this.user._id === this.product.owner;
+        return this.product && this.user && this.user._id === this.product.signature.createdBy;
     }
 
     saveProduct() {        
@@ -81,26 +82,16 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         return;
         }
 
-        let config = new MdSnackBarConfig();
-        config.duration = 3000;
-
         if (this.unitPrice != this.product.unitPrice){
-            this.product.oldPrice = this.unitPrice;
-        }        
-        
-        Products.update(this.product._id, {
-            $set: {
-                name: this.product.name,
-                location: this.product.location,
-                onSale: this.product.onSale,
-                unitPrice: this.product.unitPrice,
-                oldPrice: this.product.oldPrice,
-                quantityInStock: this.product.quantityInStock,
-                description: this.product.description,
-                images: this.product.images,
-            }
-        });
-        this.snackBar.open('Product edited!', 'X', config);
+            this.product.oldsPrice.push(this.unitPrice);
+            this.unitPrice = this.product.unitPrice;
+        }
+
+        MeteorObservable.call('update_product', this.product).subscribe(() => {
+            this.snackBar.open(`Product successfully updated!`, 'X', {duration: 1200});
+        }, (error) => {
+            this.snackBar.open(`Failed to update product! ${error}`, 'X', {duration: 1200});
+        });        
     }
 
     ngOnDestroy(){
@@ -117,9 +108,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
                 images: this.product.images,
             }
         });
-        let config = new MdSnackBarConfig();
-        config.duration = 3000;
-        this.snackBar.open('Image uploaded', 'X', config);
+        this.snackBar.open('Image uploaded', 'X', {duration: 1200});
     }
 
     get lat(): number {
@@ -137,8 +126,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
     removeImage(imageId: string): void {
         this.dialog.confirm("Alert", "Are you sure to want delete this image?", this.viewContainerRef).subscribe(result => {
-            let config = new MdSnackBarConfig();
-            config.duration = 3000;
             if(result){
                 let listImages = [];
                 this.product.images.forEach(element => {
@@ -153,7 +140,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
                     }
                 });
                 Images.remove({_id: imageId});
-                this.snackBar.open('Image deleted!', 'X', config);
+                this.snackBar.open('Image deleted!', 'X', {duration: 1200});
             }
         });            
     }

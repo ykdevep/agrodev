@@ -1,23 +1,18 @@
-<md-card class="demo-card demo-basic">
-  <md-toolbar class="md-primary" color="primary">
-       Recover Your Password
-    </md-toolbar>
-  <md-card-content>
-    <form [formGroup]="recoverForm" #f="ngForm" (ngSubmit)="recover()" layout="column" layout-fill layout-padding layout-margin>
-      <fieldset class="form-group">
-        <md-input required formControlName="email" type="email" placeholder="Email" style="width: 100%"></md-input>
+<div class="flex-container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="start">
+    <div class="md-whiteframe-z2 flex-item" fxFlex="60%" fxFlex.xs="100%" layout-padding layout-margin>        
+      <md-toolbar class="md-primary" color="primary">
+        Recover Your Password
+      </md-toolbar>        
 
-        <div layout="row" layout-align="space-between center">
-          <button md-raised-button class="md-primary" [disabled]="!recoverForm.valid" type="submit" aria-label="Recover">Recover</button>
-        </div>
-      </fieldset>
-    </form>
+      <div class="row">
+        <form [formGroup]="recoverForm" #f="ngForm" (ngSubmit)="recover()">          
+          <md-input required formControlName="email" type="email" placeholder="Email" style="width: 100%"></md-input>          
+          <button md-raised-button class="md-primary" [disabled]="!recoverForm.valid" type="submit" aria-label="Recover">Recover</button>         
+        </form> 
+      </div>
 
-    <md-divider></md-divider>
-
-    <div layout="row" layout-align="center">
-      <button md-raised-button class="md-warn" style="margin: 5px;" [routerLink]="['/login']">Remember your password?</button>
-    </div>   
-
-  </md-card-content>
-</md-card>
+      <div class="row">
+        <button md-raised-button class="md-warn" [routerLink]="['/login']">Remember your password?</button>
+      </div>
+    </div>
+</div>

@@ -8,7 +8,6 @@ export function loadProducts() {
       description: 'Can we please just for an evening not listen to dubstep.',
       quantityInStock: 10,
       unitPrice: 20,
-      oldPrice: 2,
       location: {
         name: 'Palo Alto'
       },
@@ -18,8 +17,7 @@ export function loadProducts() {
       name: 'All dubstep all the time',
       description: 'Get it on!',
       quantityInStock: 10,
-      unitPrice: 20,
-      oldPrice: 2,
+      unitPrice: 20,      
       location: {
         name: 'Palo Alto'
       },
@@ -30,7 +28,6 @@ export function loadProducts() {
       description: 'Leisure suit required. And only fiercest manners.',
       quantityInStock: 10,
       unitPrice: 20,
-      oldPrice: 2,
       location: {
         name: 'San Francisco'
       },
@@ -45,16 +42,14 @@ export function loadProducts() {
     Products.insert({
       name: "a"+i,
       quantityInStock: i*10,
-      unitPrice: i+10,
-      oldPrice: 0,      
+      unitPrice: [i+10],
       location: {
         name: "location"
       },
       description: "Description other words",
       onSale: true,
-      images : [ "E7MjBFag5F6aPpC3D" ],
+      images : [ "TsqYqESihRsKnkonZ" ],
       popularity: 2,
-      owner : "jFvNc7eSRRojfDhuE",
     });
   }*/
 }

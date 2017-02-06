@@ -3,13 +3,12 @@ import { CollectionObject } from './collection-object.model';
 export interface Product extends CollectionObject {
   name: string;
   description: string;
-  location: Location;
-  owner?: string;
+  location: GeoLocation;
   quantityInStock: number;
   popularity: number;
   unitPrice:  number;
-  oldPrice:  number;
-  onSale: boolean;
+  onSale: boolean;  
+  oldsPrice?:  number[];
   tags?: string[];
   images?: string[];
   signature?: Signature;
@@ -22,7 +21,7 @@ interface Signature {
   updatedBy?: string;
 }
 
-interface Location {
+export interface GeoLocation {
   name: string;
   lat?: number;
   lng?: number;

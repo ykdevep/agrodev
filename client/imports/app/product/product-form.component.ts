@@ -1,11 +1,16 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
+import {MdSnackBar} from '@angular/material';
 import { DialogsService } from '../dialog/dialogs.service';
 
+import { MouseEvent } from "angular2-google-maps/core";
+
 import { Meteor } from 'meteor/meteor';
+import { MeteorObservable } from 'meteor-rxjs';
+
 import { Products } from '../../../../both/collections/products.collection';
+import { GeoLocation } from '../../../../both/models/product.model';
 
 import template from './product-form.component.html';
 
@@ -17,7 +22,13 @@ import template from './product-form.component.html';
 export class ProductFormComponent implements OnInit {
 
   addForm: FormGroup;
-  images: string[] = []; 
+  images: string[] = [];
+  // Default center of mexico city.
+  location: GeoLocation = {
+    name: "Start Route",
+    lat: 19.433789301234,
+    lng: -99.1351318359375
+  } 
   
   constructor(private formBuilder: FormBuilder,
      private snackBar: MdSnackBar,
@@ -45,36 +56,43 @@ export class ProductFormComponent implements OnInit {
       return;
     }    
 
-    let config = new MdSnackBarConfig();
-    config.duration = 3000;
-    
-    if (this.addForm.valid){
-      Products.insert({
-        name: this.addForm.value.name,
-        description: this.addForm.value.description,
-        location: {
-          name: this.addForm.value.location,
-          lat: 19.479193548305044,
-          lng: -99.1571044921875
-        },
-        onSale: this.addForm.value.on_sale,
-        quantityInStock: this.addForm.value.quantity_in_stock,
-        unitPrice: this.addForm.value.unit_price,
-        oldPrice: null,
-        images: this.images,
-        popularity: 0,
-        owner: Meteor.userId()
+    if (this.addForm.valid){  
+
+      MeteorObservable.call('insert_product',
+            this.addForm.value.name,
+            this.addForm.value.description,
+            this.location,
+            this.addForm.value.on_sale,
+            this.addForm.value.quantity_in_stock,
+            this.addForm.value.unit_price,
+            this.images)
+      .subscribe(() => {
+        this.snackBar.open(`Product successfully added!`, 'X', {duration: 1200});
+      }, (error) => {
+        this.snackBar.open(`Failed to insert product! ${error}`, 'X', {duration: 1200});
       });
       
       this.addForm.reset();
       this.images = [];
-      this.snackBar.open('Product added!', 'X', config);
     }else{
-      this.snackBar.open('Form have errors!', 'X', config);
+      this.snackBar.open('Form have errors!', 'X', {duration: 1200});
     }
   }
 
   onImage(imageId: string){
     this.images.push(imageId);
+  }
+
+  get lat(): number {
+    return this.location.lat;
+  }    
+
+  get lng(): number {
+    return this.location.lng;
+  }    
+
+  mapClicked($event: MouseEvent) {
+    this.location.lat = $event.coords.lat;
+    this.location.lng = $event.coords.lng;
   }
 }

@@ -37,13 +37,12 @@ function buildQueryHome(name?: string, min?: number, max?: number): Object {
   const isAvailable = {
     $and: [
      { 
-      // current user is the owner
       $and: [{
         onSale: true 
       },{
         quantityInStock: {$gt: 0} 
       },{
-        owner: {
+        'signature.createdBy': {
           $exists: true
         }
       }]
@@ -94,12 +93,12 @@ function buildQueryHome(name?: string, min?: number, max?: number): Object {
 
 function buildQueryDetails(productId?: string): Object {
     if (productId) {
-    return {
-      // only single product
-      $and: [{
-          _id: productId
-        }]
-    };
+      return {
+        // only single product
+        $and: [{
+            _id: productId
+          }]
+      };
   }  
 }
 
@@ -109,9 +108,9 @@ function buildQuery(productId?: string, name?: string): Object {
      { 
       // current user is the owner
       $and: [{
-        owner: this.userId 
+        'signature.createdBy': this.userId 
       }, {
-        owner: {
+        'signature.createdBy': {
           $exists: true
         }
       }]
@@ -150,7 +149,7 @@ function buildQueryQuantityInStock(productId: string): Object {
       },{
         quantityInStock: {$gt: 0} 
       },{
-        owner: {
+        'signature.createdBy': {
           $exists: true
         }
       }]

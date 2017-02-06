@@ -1,63 +1,68 @@
-<md-card class="demo-card demo-basic">
-  <md-toolbar class="md-primary" color="primary">
-    Route Details
-  </md-toolbar>
-  <md-card-content>
-  
-  <form *ngIf="route" (submit)="saveRoute()">
-    <fieldset class="form-group">
-      <md-input [disabled]="!isOwner" type="text" [(ngModel)]="route.name" name="name" #name placeholder="Route name" style="width: 35%" minlength="2" maxlength="40" required>
-        <md-hint align="end">{{name.characterCount}} / 40</md-hint>
-      </md-input>
-      
-      <md-input [disabled]="!isOwner" type="number" [(ngModel)]="route.price" name="price" placeholder="Route price" #price style="width: 10%" required></md-input>
-           
-      <md-textarea [disabled]="!isOwner"  type="text" [(ngModel)]="route.description" name="description" #description placeholder="Description" style="width: 54%"  minlength="2" maxlength="250" required>
-        <md-hint align="end">{{description.characterCount}} / 250</md-hint>
-      </md-textarea>
+<div class="flex-container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="start">
+  <div class="md-whiteframe-z2" fxFlex="96%" fxFlex.xs="100%">        
+    <md-toolbar color="primary">
+      Route details
+    </md-toolbar>        
+
+    <div class="row">
+      <form *ngIf="route" (submit)="saveRoute()">  
+        <div class="row"  fxLayout="row" fxLayout.xs="column">
+          <div class="flex-item" fxFlex="50%" fxFlex.xs="100%">        
+            <md-input [disabled]="!isOwner" type="text" [(ngModel)]="route.name" name="name" #name placeholder="Route name" style="width: 70%" minlength="2" maxlength="40" required>
+              <md-hint align="end">{{name.characterCount}} / 40</md-hint>
+            </md-input>
             
-      <md-input [disabled]="!isOwner" type="text" [(ngModel)]="route.startRoute.name" name="start_route" #start_route placeholder="Start route" style="width: 49%" required minlength="2" maxlength="50">
-        <md-hint align="end">{{start_route.characterCount}} / 50</md-hint>
-      </md-input>
+            <md-input [disabled]="!isOwner" type="number" [(ngModel)]="route.price" name="price" placeholder="Route price" #price style="width: 25%" required></md-input>
+                
+            <md-textarea [disabled]="!isOwner"  type="text" [(ngModel)]="route.description" name="description" #description placeholder="Description" style="width: 100%"  minlength="2" maxlength="250" required>
+              <md-hint align="end">{{description.characterCount}} / 250</md-hint>
+            </md-textarea>
+                  
+            <md-input [disabled]="!isOwner" type="text" [(ngModel)]="route.startRoute.name" name="start_route" #start_route placeholder="Start route" style="width: 49%" required minlength="2" maxlength="25">
+              <md-hint align="end">{{start_route.characterCount}} / 25</md-hint>
+            </md-input>
 
-      <md-input [disabled]="!isOwner" type="text" [(ngModel)]="route.finalRoute.name" name="final_route" #final_route placeholder="Final route" style="width: 49%" required minlength="2" maxlength="50">
-        <md-hint align="end">{{final_route.characterCount}} / 50</md-hint>
-      </md-input>
+            <md-input [disabled]="!isOwner" type="text" [(ngModel)]="route.finalRoute.name" name="final_route" #final_route placeholder="Final route" style="width: 49%" required minlength="2" maxlength="25">
+              <md-hint align="end">{{final_route.characterCount}} / 25</md-hint>
+            </md-input>
+          </div>
+          
+          <div class="flex-item map" fxFlex="50%" fxFlex.xs="100%">        
+            <sebm-google-map
+              [latitude]="latS || centerLat"
+              [longitude]="lngS || centerLat"
+              [zoom]="6">
 
-     <div style="padding: 20px"> <h3>Routes</h3>
-        <sebm-google-map
-          [latitude]="latS || centerLat"
-          [longitude]="lngS || centerLat"
-          [zoom]="6">
+              <sebm-google-map-marker
+                *ngIf="latS && lngS"
+                [latitude]="latS"
+                [longitude]="lngS"
+                [label]="'S'"
+                [title]="'Start Route'"
+                [markerDraggable]="true"
+                (dragEnd)="markerDragEndStart($event)">
+              </sebm-google-map-marker>
 
-          <sebm-google-map-marker
-            *ngIf="latS && lngS"
-            [latitude]="latS"
-            [longitude]="lngS"
-            [label]="'S'"
-            [title]="'Start Route'"
-            [markerDraggable]="true"
-            (dragEnd)="markerDragEndStart($event)">
-          </sebm-google-map-marker>
+              <sebm-google-map-marker
+                *ngIf="latF && lngF"
+                [latitude]="latF"
+                [longitude]="lngF"
+                [label]="'F'"
+                [title]="'Final Route'"
+                [markerDraggable]="true"
+                (dragEnd)="markerDragEndFinal($event)">
+              </sebm-google-map-marker>
 
-          <sebm-google-map-marker
-            *ngIf="latF && lngF"
-            [latitude]="latF"
-            [longitude]="lngF"
-            [label]="'F'"
-            [title]="'Final Route'"
-            [markerDraggable]="true"
-            (dragEnd)="markerDragEndFinal($event)">
-          </sebm-google-map-marker>
+            </sebm-google-map>
+          </div>
+        </div>
 
-        </sebm-google-map>
-      </div>
-      
-      
-      <button md-raised-button color="primary" type="submit"><i class="material-icons">create</i>Save</button>
-      <button md-raised-button type="button" [routerLink]="['/user/routes']" [queryParams]="query">Back</button>
-      
-    </fieldset>
-  </form>
- </md-card-content>
-</md-card>
+        <div class="row">
+          <button md-raised-button type="button" [routerLink]="['/user/routes']" [queryParams]="query"><i class="material-icons">arrow_back</i> Back</button>
+          <button md-raised-button color="primary" type="submit"><i class="material-icons">create</i>Save</button>
+        </div>
+        
+      </form>                
+    </div>           
+  </div>
+</div>

@@ -1,31 +1,65 @@
-<md-card class="demo-card demo-basic">
-  <md-toolbar class="md-primary" color="primary">
-      Add route
-    </md-toolbar>
-  <md-card-content>
-  
-  <form [formGroup]="addForm" (ngSubmit)="addRoute();">
-    <fieldset class="form-group">
-      <md-input formControlName="name" placeholder="Route name" #name style="width: 35%" required minlength="2" maxlength="40">
-        <md-hint align="end">{{name.characterCount}} / 40</md-hint>
-      </md-input>
+<div class="md-whiteframe-z2" fxFlex="100%" fxFlex.xs="100%" layout-padding layout-margin>        
+  <md-toolbar color="primary">
+    Add route
+  </md-toolbar>        
 
-      <md-input type="number" step="any" formControlName="price" placeholder="Route price" #unit_price style="width: 10%" required></md-input>
+  <div class="row">
+    <form [formGroup]="addForm" (ngSubmit)="addRoute();">  
+      <div class="row"  fxLayout="row" fxLayout.xs="column">
+        <div class="flex-item" fxFlex="50%" fxFlex.xs="100%">        
+          <md-input formControlName="name" placeholder="Route name" #name style="width: 70%" required minlength="2" maxlength="40">
+            <md-hint align="end">{{name.characterCount}} / 40</md-hint>
+          </md-input>
 
-      <md-textarea formControlName="description" placeholder="Description" #description style="width: 54%" minlength="2" maxlength="250" required>
-        <md-hint align="end">{{description.characterCount}} / 250</md-hint>
-      </md-textarea>
+          <md-input type="number" step="any" formControlName="price" placeholder="Route price" #unit_price style="width: 25%" required></md-input>
 
-      <md-input formControlName="start_route"  placeholder="Start Route" #start_route required style="width: 49%" minlength="2" maxlength="50">
-        <md-hint align="end">{{start_route.characterCount}} / 50</md-hint>
-      </md-input>
+          <md-textarea formControlName="description" placeholder="Description" #description style="width: 100%" minlength="2" maxlength="250" required>
+            <md-hint align="end">{{description.characterCount}} / 250</md-hint>
+          </md-textarea>
 
-      <md-input formControlName="final_route"  placeholder="Final route" #final_route required style="width: 49%" minlength="2" maxlength="50">
-        <md-hint align="end">{{final_route.characterCount}} / 50</md-hint>
-      </md-input>
+          <md-input formControlName="start_route"  placeholder="Start Route" #start_route required style="width: 49%" minlength="2" maxlength="25">
+            <md-hint align="end">{{start_route.characterCount}} / 25</md-hint>
+          </md-input>
 
-      <button md-raised-button color="primary" [disabled]="!addForm.valid" type="submit"><i class="material-icons">add</i>Add</button>
-    </fieldset>
-  </form>
-  </md-card-content>
-</md-card>
+          <md-input formControlName="final_route"  placeholder="Final route" #final_route required style="width: 49%" minlength="2" maxlength="25">
+            <md-hint align="end">{{final_route.characterCount}} / 25</md-hint>
+          </md-input>
+        </div>
+        
+        <div class="flex-item map" fxFlex="50%" fxFlex.xs="100%">        
+          <sebm-google-map
+            [latitude]="startRoute.lat"
+            [longitude]="startRoute.lng"
+            [zoom]="6">
+
+            <sebm-google-map-marker
+              *ngIf="startRoute.lat && startRoute.lng"
+              [latitude]="startRoute.lat"
+              [longitude]="startRoute.lng"
+              [label]="'S'"
+              [title]="'Start Route'"
+              [markerDraggable]="true"
+              (dragEnd)="markerDragEndStart($event)">
+            </sebm-google-map-marker>
+
+            <sebm-google-map-marker
+              *ngIf="finalRoute.lat && finalRoute.lng"
+              [latitude]="finalRoute.lat"
+              [longitude]="finalRoute.lng"
+              [label]="'F'"
+              [title]="'Final Route'"
+              [markerDraggable]="true"
+              (dragEnd)="markerDragEndFinal($event)">
+            </sebm-google-map-marker>
+
+          </sebm-google-map>
+        </div>
+      </div>
+
+      <div class="row">
+        <button md-raised-button color="primary" [disabled]="!addForm.valid" type="submit"><i class="material-icons">add</i>Add</button>
+      </div>
+      
+    </form>                
+  </div>           
+</div>

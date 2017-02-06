@@ -25,9 +25,9 @@ function buildQuery(min?: number, max?: number): Object {
       { 
         // current user is the owner
         $and: [{
-          createdBy: this.userId 
+          'signature.createdBy': this.userId 
         }, {
-          createdBy: {
+          'signature.createdBy': {
             $exists: true
           }
         }, {

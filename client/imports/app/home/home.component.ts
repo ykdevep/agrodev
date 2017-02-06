@@ -21,9 +21,9 @@ import { Products } from '../../../../both/collections/products.collection';
 import { Product } from '../../../../both/models/product.model'; 
 import { Images } from '../../../../both/collections/images.collection';
 import { Thumbs } from '../../../../both/collections/images.collection';
-import { Thumb } from '../../../../both/models/image.model'; 
 
 import template from './home.component.html';
+const style = './parties-form.component.scss';
 
 interface Pagination {
   limit: number;
@@ -36,7 +36,7 @@ interface Options extends Pagination {
 @Component({
   selector: 'home',
   template,
-  styleUrls: ['app/home.component.scss']
+  styleUrls: [style]
 })
 
 @InjectUser('user')
@@ -72,10 +72,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private snackBar: MdSnackBar,
     private dialog: DialogsService,
     private shoppingCart: ShoppingCartService,
-    private viewContainerRef: ViewContainerRef) {
-      this.products = Products.find({}, {}).zone();  
-      this.curPage.next(1);  
-    }
+    private viewContainerRef: ViewContainerRef) {}
 
   ngOnInit() {
 
@@ -100,9 +97,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }      
 
       this.productsSub = MeteorObservable.subscribe('home', options, name, min, max).subscribe(() => {
-        this.products.concat(Products.find({}, {})
-          .debounce(() => Observable.interval(20))
-          .zone());    
+        this.products = Products.find({}, {}).zone(); 
         this.isLoading = false;
         if (this.user){
           this.shoppingCart.initPurchaseOrder(this.user._id);
@@ -176,7 +171,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Adding producto to shopping cart
+   * Adding product to shopping cart
    */
   addCart(product: Product): void{
         
@@ -198,7 +193,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.productsSub.unsubscribe();
     if (this.productSub){
       this.productSub.unsubscribe();
     }    

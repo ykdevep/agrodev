@@ -10,11 +10,6 @@ export interface PurchaseItem extends CollectionObject {
 enum	Status	{submitted, shipped, received, returned};
 
 export interface PurchaseOrder extends CollectionObject {
-  shippingAddress: string;
-  shippingCity: string;
-  shippingZip: string;
-  shippingState: string;
-  shippingCountry: string;
   totalPrice: number;
   totalTax: number;
   totalBalance: number;
@@ -24,8 +19,21 @@ export interface PurchaseOrder extends CollectionObject {
   status:  Status;
   isActive: boolean;
   purchaseItem: PurchaseItem[];
+  signature?: Signature;
+  shipping?: Shipping;
+}
+
+interface Signature {
   createdAt?: Date;
   updatedAt?: Date;
   createdBy?: string;
   updatedBy?: string;
+}
+
+interface Shipping{
+  shippingAddress: string;
+  shippingCity: string;
+  shippingZip: string;
+  shippingState: string;
+  shippingCountry: string;
 }

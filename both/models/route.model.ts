@@ -3,10 +3,9 @@ import { CollectionObject } from './collection-object.model';
 export interface Route extends CollectionObject {
   name: string;
   description: string;
-  startRoute: Location;
-  finalRoute: Location;
+  startRoute: GeoLocation;
+  finalRoute: GeoLocation;
   price: number;
-  owner?: string;
   signature?: Signature;
 }
 
@@ -17,7 +16,7 @@ interface Signature {
   updatedBy?: string;
 }
 
-interface Location {
+export interface GeoLocation {
   name: string;
   lat?: number;
   lng?: number;

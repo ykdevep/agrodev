@@ -1,69 +1,80 @@
-<div [hidden]="!user" flex layout="row" class="div ma-routes-list">
-  <div layout="row" flex>
-    <div flex="50">
-      <div>
-        <div class="div new-route-form-container">
-          <route-form></route-form>
-        </div>     
-
-        <div class="div md-padding" style="padding-top:5px; padding-bottom:5px;">
-          <div layout-padding layout="row">
-            <md-card class="demo-card demo-basic" *ngIf="isLoading">  
-              <md-progress-bar mode="indeterminate">...</md-progress-bar>
-            </md-card>
-            <md-toolbar>
-              <div layout-padding layout="row" >
-                <p>Count of routes: ({{routesSize}})</p>
-              </div>
-              <div layout-padding layout="row" class="fill-remaining-space" style="padding-left: 5px;">
-                <form [formGroup]="searchForm" (ngSubmit)="search();">
-                    <md-input formControlName="name" placeholder="Search route by name" #name style="width: 60%"></md-input>
-                    <button md-raised-button color="primary" type="submit" style="width: 10%"><i class="material-icons">search</i>Search</button>
-                </form>
-              </div>   
-              
-              <div layout-padding layout="row" style="position: relative; float: left; padding-left: 5px; padding-right: 5px;">
-                  <md-slide-toggle (change)="changeSortOrder($event)">
-                    Sort
-                  </md-slide-toggle>               
-              </div>  
-              
-            </md-toolbar>
-
-          </div>            
-        
-          <div *ngFor="let route of routes | async">
-            <md-card style="margin-top: 5px; margin-bottom: 5px;">
-              <md-card-content>
-                
-                <h2 class="md-title ma-name">
-                  <a [routerLink]="['/user/route', route._id]" [queryParams]="query">{{route.name}}</a>
-                </h2>
-                
-                <h3>Route Price: {{route.price}}</h3>
-                <h4>Start route: {{route.startRoute.name}} (latitude {{route.startRoute.lat}} x longitude {{route.startRoute.lng}})</h4>
-
-                <h4>Final route: {{route.finalRoute.name}} (latitude {{route.finalRoute.lat}} x longitude {{route.finalRoute.lng}})</h4>
-
-                <p class="ma-description" style="margin-bottom:35px; margin-top: 6px;">
-                  {{route.description}}
-                </p>
-
-                <button md-raised-button [hidden]="!isOwner(route)"  color="warn" (click)="removeRoute(route)"><i class="material-icons">delete_forever</i>Delete</button>
-                
-              </md-card-content>
-            </md-card>
-          </div>
-          <div layout-padding layout="row">
-            <md-toolbar>
-              <pagination-controls *ngIf="routesSize > 10" (pageChange)="onPageChanged($event)"></pagination-controls>             
-            </md-toolbar>                       
-          </div>  
-        </div>
-      </div>
-     </div>
+<div class="flex-container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="start">
+  <div  class="md-whiteframe-z2" fxFlex="100%" fxFlex.xs="100%" layout-padding layout-margin>
+    <div class="row">
+      <route-form></route-form>
     </div>
+
+    <div class="row">
+      <md-toolbar>
+          <p>Count of routes: ({{routesSize}})</p> 
+          
+          <form [formGroup]="searchForm" (ngSubmit)="search();">
+              <md-input formControlName="name" placeholder="Search route by name" #name></md-input>
+              <button md-raised-button color="primary" type="submit"><i class="material-icons">search</i>Search</button>
+          </form>          
+
+          <span class="fill-remaining-space"></span>
+
+          <md-slide-toggle (change)="changeSortOrder($event)">
+            Sort by name
+          </md-slide-toggle>        
+        </md-toolbar>
+      </div>    
+
+     <div class="row" fxLayout="column" fxLayout.xs="column">
+        <md-card *ngFor="let route of routes | async">
+          <md-card-content  fxLayout="row" fxLayout.xs="column" fxFlex="100%" fxFlex.xs="100%">      
+            <div class="flex-item" fxFlex="50%" fxFlex.xs="100%">                 
+              <h1>
+                <a class="md-title" [routerLink]="['/user/route', route._id]" [queryParams]="query">{{route.name}}</a>
+              </h1>                
+              <h2>$ {{route.price}}</h2>
+              <h4>{{route.startRoute.name}} -> {{route.finalRoute.name}}</h4>
+              <p>{{route.description}}</p>
+              <button md-raised-button [hidden]="!isOwner(route)"  color="warn" (click)="removeRoute(route)"><i class="material-icons">delete_forever</i>Delete</button>
+            </div>
+            <div class="flex-item" fxFlex="50%" fxFlex.xs="100%">        
+              <sebm-google-map
+                [latitude]="route.startRoute.lat"
+                [longitude]="route.startRoute.lng"
+                [zoom]="6">
+
+                <sebm-google-map-marker
+                  *ngIf="route.startRoute.lat && route.startRoute.lng"
+                  [latitude]="route.startRoute.lat"
+                  [longitude]="route.startRoute.lng"
+                  [label]="'S'"
+                  [title]="'Start Route'"
+                  [markerDraggable]="False">
+                </sebm-google-map-marker>
+
+                <sebm-google-map-marker
+                  *ngIf="route.finalRoute.lat && route.finalRoute.lng"
+                  [latitude]="route.finalRoute.lat"
+                  [longitude]="route.finalRoute.lng"
+                  [label]="'F'"
+                  [title]="'Final Route'"
+                  [markerDraggable]="False">
+                </sebm-google-map-marker>
+
+              </sebm-google-map>
+            </div>
+          </md-card-content>
+        </md-card>       
+      </div>
+
+      <div class="row" *ngIf="isLoading">
+        <md-toolbar>
+          <md-progress-bar mode="indeterminate">...</md-progress-bar>             
+        </md-toolbar>
+      </div>      
+
+      <div class="row">
+        <md-toolbar>
+          <pagination-controls *ngIf="routesSize > 10" (pageChange)="onPageChanged($event)"></pagination-controls>             
+        </md-toolbar>
+      </div>   
+
+      <div [hidden]="user">You need to login to create new routes!</div>         
   </div>
 </div>
-
-<div [hidden]="user">You need to login to create new routes!</div>
