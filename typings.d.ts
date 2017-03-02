@@ -5,6 +5,25 @@ declare module '*.html' {
   export default template;
 }
 
+declare module '*.scss' {
+  const style: string;
+  export default style;
+}
+
+declare module '*.less' {
+  const style: string;
+  export default style;
+}
+
+declare module '*.css' {
+  const style: string;
+  export default style;
+}
+
+declare module '*.sass' {
+  const style: string;
+  export default style;
+}
 declare module 'meteor/tmeasday:publish-counts' {
   import { Mongo } from 'meteor/mongo';
   
@@ -32,11 +51,10 @@ declare var Fake: {
     sentence(words: number): string;
 }
 
-declare module 'meteor/jalik:roles' {
-  
-  interface Roles {
-    start: () => void;
+declare module "meteor/alanning:roles" {
+  export module Roles {
+    function userIsInRole(id?: any,value?: any): boolean{  }
+    function addUsersToRoles(id?: any,value?: any): boolean{ }
+    function getRolesForUser(id?: any): boolean { }
   }
-
-  export var Roles;
 }

@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 
-import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
+import { MdSnackBar } from '@angular/material';
+import { Translation, TranslationService } from 'angular-l10n';
 
 import template from './recover.component.html';
 
@@ -11,14 +12,17 @@ import template from './recover.component.html';
   selector: 'recover',
   template
 })
-export class RecoverComponent implements OnInit {
+export class RecoverComponent extends Translation implements OnInit {
   recoverForm: FormGroup;
 
   constructor(
     private snackbar: MdSnackBar,
     private router: Router,
     private zone: NgZone,
-    private formBuilder: FormBuilder) {}
+    private formBuilder: FormBuilder,
+    public translation: TranslationService) {      
+        super(translation);    
+    }
 
   ngOnInit() {
     this.recoverForm = this.formBuilder.group({
@@ -32,10 +36,8 @@ export class RecoverComponent implements OnInit {
         email: this.recoverForm.value.email
       }, (err) => {
         if (err) {
-          let config = new MdSnackBarConfig();
-          config.duration = 3000;
-          this.zone.run(() => {
-            this.snackbar.open(err, "X", config);
+            this.zone.run(() => {
+            this.snackbar.open(err, "X", {duration: 1200});
           });
         } else {
           this.router.navigate(['/']);

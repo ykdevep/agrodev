@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Roles } from 'meteor/alanning:roles';
 
 import { loadProducts } from './imports/fixtures/products';
 
@@ -10,4 +11,5 @@ import './imports/publications/purchase';
 
 Meteor.startup(() => {
   loadProducts();
+  console.log("Start server");
 });

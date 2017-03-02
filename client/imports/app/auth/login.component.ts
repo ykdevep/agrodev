@@ -1,6 +1,8 @@
 import {Component, OnInit, NgZone} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
+import { Translation, TranslationService } from 'angular-l10n';
 import { Meteor } from 'meteor/meteor';
 
 import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
@@ -11,14 +13,17 @@ import template from './login.component.html';
   selector: 'login',
   template
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends Translation implements OnInit {
   loginForm: FormGroup;
   
   constructor(
     private snackbar: MdSnackBar,
     private router: Router,
     private zone: NgZone,
-    private formBuilder: FormBuilder) {}
+    private formBuilder: FormBuilder,
+    public translation: TranslationService) {      
+        super(translation);    
+    }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({

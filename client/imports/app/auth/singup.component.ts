@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 
 import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
+import { Translation, TranslationService } from 'angular-l10n';
 
 import template from './signup.component.html';
 
@@ -11,14 +12,17 @@ import template from './signup.component.html';
   selector: 'signup',
   template
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent extends Translation implements OnInit {
   signupForm: FormGroup;
 
   constructor(
     private snackbar: MdSnackBar,
     private router: Router, 
     private zone: NgZone,
-    private formBuilder: FormBuilder) {}
+    private formBuilder: FormBuilder,
+    public translation: TranslationService) {      
+        super(translation);    
+    }
 
   ngOnInit() {
     this.signupForm = this.formBuilder.group({

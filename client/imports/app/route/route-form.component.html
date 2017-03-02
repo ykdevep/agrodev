@@ -7,23 +7,23 @@
     <form [formGroup]="addForm" (ngSubmit)="addRoute();">  
       <div class="row"  fxLayout="row" fxLayout.xs="column">
         <div class="flex-item" fxFlex="50%" fxFlex.xs="100%">        
-          <md-input formControlName="name" placeholder="Route name" #name style="width: 70%" required minlength="2" maxlength="40">
+          <md-input-container formControlName="name" placeholder="Route name" #name style="width: 70%" required minlength="2" maxlength="40">
             <md-hint align="end">{{name.characterCount}} / 40</md-hint>
-          </md-input>
+          </md-input-container>
 
-          <md-input type="number" step="any" formControlName="price" placeholder="Route price" #unit_price style="width: 25%" required></md-input>
+          <md-input-container type="number" step="any" formControlName="price" placeholder="Route price" #unit_price style="width: 25%" required></md-input-container>
 
           <md-textarea formControlName="description" placeholder="Description" #description style="width: 100%" minlength="2" maxlength="250" required>
             <md-hint align="end">{{description.characterCount}} / 250</md-hint>
           </md-textarea>
 
-          <md-input formControlName="start_route"  placeholder="Start Route" #start_route required style="width: 49%" minlength="2" maxlength="25">
+          <md-input-container formControlName="start_route"  placeholder="Start Route" #start_route required style="width: 49%" minlength="2" maxlength="25">
             <md-hint align="end">{{start_route.characterCount}} / 25</md-hint>
-          </md-input>
+          </md-input-container>
 
-          <md-input formControlName="final_route"  placeholder="Final route" #final_route required style="width: 49%" minlength="2" maxlength="25">
+          <md-input-container formControlName="final_route"  placeholder="Final route" #final_route required style="width: 49%" minlength="2" maxlength="25">
             <md-hint align="end">{{final_route.characterCount}} / 25</md-hint>
-          </md-input>
+          </md-input-container>
         </div>
         
         <div class="flex-item map" fxFlex="50%" fxFlex.xs="100%">        

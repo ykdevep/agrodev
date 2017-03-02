@@ -6,23 +6,25 @@
       <md-toolbar color="primary" fxLayout="column" fxLayout.xs="column">
         <a routerLink="/" class="logo">Logo</a>
 
-        <ul class="nav" fxLayout="row" fxLayout.xs="column" [hidden]="!user">
-          <li><a md-menu-item [routerLink]="['/user/products']" class="md-title"><i class="material-icons">store</i> My Products</a> </li>
-          <li><a md-menu-item [routerLink]="['/user/routes']" class="md-title"><i class="material-icons">add_location</i> My Routes</a> </li>
-          <li><a md-menu-item [routerLink]="['/user/purchases']" class="md-title"><i class="material-icons">local_shipping</i> My Shippings</a> </li>
-        </ul> 
+        <div [hidden]="!user" class="row">
+          <ul class="nav" fxLayout="row" fxLayout.xs="row">
+            <li><a md-menu-item [routerLink]="['/user/products']" class="toolbar-title"><md-icon>store</md-icon> {{ 'My Products' | translate:lang }}</a> </li>
+            <li><a md-menu-item [routerLink]="['/user/routes']" class="toolbar-title"><md-icon>add_location</md-icon> {{ 'My Routes' | translate:lang }}</a> </li>
+            <li><a md-menu-item [routerLink]="['/user/purchases']" class="toolbar-title"><md-icon>local_shipping</md-icon>{{ 'My Shippings' | translate:lang }}</a> </li>
+          </ul>
+        </div> 
 
         <span class="fill-remaining-space"></span> 
 
         <button md-mini-fab md-icon-button (click)="right.toggle()">
-          <i class="material-icons">shopping_cart</i>
+          <md-icon>shopping_cart</md-icon> 
         </button>
 
         <total-price></total-price>    
 
-        <a md-menu-item id="user-menu" [md-menu-trigger-for]="menu">  
-          <span [hidden]="!user">{{ user | displayName }}</span>       
-          <i class="material-icons">more_vert</i>    
+        <a md-menu-item id="user-menu" [md-menu-trigger-for]="menu" class="toolbar-title">  
+          <span [hidden]="!user">{{ 'Welcome' | translate:lang }} {{ user | displayName }}</span>       
+          <md-icon>more_vert</md-icon>    
         </a>   
       </md-toolbar>
     </nav>
@@ -30,42 +32,44 @@
     <!-- this is default user menu -->
     <md-menu #menu="mdMenu" x-position="before">        
         <div [hidden]="user">          
-          <a md-menu-item [routerLink]="['/login']"><i class="material-icons">lock_open</i>Login</a>
-          <a md-menu-item [routerLink]="['/signup']"><i class="material-icons">account_circle</i>Sign up</a>
+          <a md-menu-item [routerLink]="['/login']"><md-icon>lock_open</md-icon>{{'Login' | translate:lang }}</a>
+          <a md-menu-item [routerLink]="['/signup']"><md-icon>account_circle</md-icon>{{'Sign up' | translate:lang }}</a>
         </div>
         <div [hidden]="!user">     
-          <a md-menu-item (click)="logout()"><i class="material-icons">lock</i>Logout</a>
+          <a md-menu-item (click)="logout()"><md-icon>lock</md-icon>{{ 'Logout' | translate:lang }}</a>
         </div>        
     </md-menu>
   </div>
   
   <!-- this is default content -->
-  <md-sidenav-layout class="flex-item" fxFlex="100%" fxFlex.xs="100%">
+  <md-sidenav-container class="flex-item" fxFlex="100%" fxFlex.xs="100%">
     <md-sidenav #right align="end">          
-        <h2><i class="material-icons">shopping_cart</i> Shopping Cart</h2>
-        <purchase-order></purchase-order>  
+        <h2><md-icon>shopping_cart</md-icon> {{ 'Shopping Cart' | translate:lang }}</h2>
+        <purchase-order></purchase-order>
         
     </md-sidenav>
-    <md-sidenav-container>   
-      <!-- primary content -->
-      <router-outlet></router-outlet>      
-    </md-sidenav-container> 
-  </md-sidenav-layout>
+    <!-- primary content -->
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>      
+  </md-sidenav-container>
 </div>
 
 <!-- this is default subscription bar -->
 <nav class="flex-item">        
   <ul class="subscription" fxLayout="row" fxLayout.xs="column">
-    <li><a md-menu-item><i class="material-icons">phone</i>90899 345 2511</a></li>
-    <li><a md-menu-item><i class="material-icons">airport_shuttle</i>Ir al super</a></li>
-    <li><a md-menu-item [routerLink]="['/about']"><i class="material-icons">supervisor_account</i>About</a></li>
-    <li><a md-menu-item [routerLink]="['/help']"><i class="material-icons">help</i>Help</a></li>
+    <li><a md-menu-item><md-icon>phone</md-icon>90899 345 2511</a></li>
+    <li><a md-menu-item><md-icon>airport_shuttle</md-icon>{{ 'Go to market' | translate:lang }}</a></li>
+    <li><a md-menu-item [routerLink]="['/about']"><md-icon>supervisor_account</md-icon>{{ 'About' | translate:lang }}</a></li>
+    <li><a md-menu-item [routerLink]="['/help']"><md-icon>help</md-icon>{{ 'Help' | translate:lang }}</a></li>
+    <li><a md-menu-item color="primary" (click)="selectLanguage('en');"><md-icon>translate</md-icon>English</a></li>
+    <li><a md-menu-item color="primary" (click)="selectLanguage('es');"><md-icon>translate</md-icon>Español</a></li>
   </ul> 
-</nav>  
+</nav>
   
 <!-- this is default footer -->
 <footer class="flex-item">
   <md-toolbar color="primary">
-      <h5>Copyright &#169; All Rigth Reserved - Online Agro Store {{year}}</h5>
+      <p>Copyright &#169; {{'Copyright' | translate:lang:{ year: year } }}</p>
   </md-toolbar>
 </footer>

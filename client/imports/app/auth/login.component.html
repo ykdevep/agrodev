@@ -1,20 +1,26 @@
 <div class="flex-container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="start">
     <div class="md-whiteframe-z2 flex-item" fxFlex="60%" fxFlex.xs="100%" layout-padding layout-margin>        
-      <md-toolbar class="md-primary" color="primary">
-        Sign in with your email
+      <md-toolbar color="primary">
+        <h3>{{'Log in with your email' | translate:lang }}</h3>
       </md-toolbar>        
 
       <div class="row">
-        <form [formGroup]="loginForm" #f="ngForm" (ngSubmit)="login()">          
-          <md-input required formControlName="email" type="email" placeholder="Email" style="width: 100%"></md-input>
-          <md-input required formControlName="password" type="password" placeholder="Password" style="width: 100%"></md-input>          
-          <button md-raised-button class="md-primary" type="submit" [disabled]="!loginForm.valid" aria-label="login"><i class="material-icons">lock</i>Sign In</button>         
+       <form [formGroup]="loginForm" #f="ngForm" (ngSubmit)="login()">          
+          <md-input-container class="form-container">
+            <input mdInput required formControlName="email" type="email" placeholder="{{'Email' | translate:lang}}">
+          </md-input-container>
+          <md-input-container class="form-container">
+            <input mdInput required formControlName="password" type="password" placeholder="{{'Password?' | translate:lang }}"></md-input-container>          
+          <button md-raised-button color="primary" type="submit" [disabled]="!loginForm.valid" aria-label="login"><md-icon>lock</md-icon>{{ 'Login' | translate:lang }}</button>         
         </form> 
       </div>
 
-      <div class="row">
-        <button md-raised-button class="md-warn" [routerLink]="['/recover']"><i class="material-icons">help</i>Forgot password?</button>
-        <button md-raised-button class="md-warn" [routerLink]="['/signup']"><i class="material-icons">account_circle</i>Need an account?</button>
+      <div layout="row" layout-align="center">
+        <md-toolbar>
+          <ul class="nav"  fxLayout="row" fxLayout.xs="column">
+            <li><a md-raised-button color="warn" [routerLink]="['/recover']"><md-icon>help</md-icon>{{'Forgot password?' | translate:lang }}</a></li>
+            <li><a md-raised-button color="warn" [routerLink]="['/signup']"><md-icon>account_circle</md-icon>{{'Need an account?' | translate:lang }}</a></li>
+        </md-toolbar>
       </div>
     </div>
 </div>

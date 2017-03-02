@@ -1,38 +1,49 @@
 <div class="flex-container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="start">
     <div class="md-whiteframe-z2 flex-item" fxFlex="60%" fxFlex.xs="100%" layout-padding layout-margin>         
-      <md-toolbar class="md-primary" color="primary">
-        Sign up
+      <md-toolbar color="primary">
+        <h3>{{ 'Sign up' | translate:lang }}</h3>
       </md-toolbar>        
 
       <div class="row">
         <form [formGroup]="signupForm" #f="ngForm" (ngSubmit)="signup()" layout="column" layout-fill layout-padding layout-margin>
-            <md-input formControlName="email" type="email" placeholder="Email" style="width: 100%"></md-input>
-            <md-input required validateEqual="confirmPassword" reverse="true" formControlName="password" type="password" #password placeholder="Password" style="width: 100%" minlength="7">
-              <md-hint align="end">7 / {{password.characterCount}}</md-hint>
-            </md-input>
-            <md-input required validateEqual="password" formControlName="confirmPassword" type="password" #confirmPassword placeholder="Confirm Password" style="width: 100%" minlength="7">
-              <md-hint align="end">7 / {{confirmPassword.characterCount}}</md-hint>
-              
-            </md-input>
-            <md-input required formControlName="firstName" #firstname type="text" placeholder="Firstname" style="width: 100%" maxlength="25">
-              <md-hint align="end">{{firstname.characterCount}} / 25</md-hint>
-            </md-input>
-            <md-input required formControlName="lastName" #lastname type="text" placeholder="Lastname" style="width: 100%" maxlength="25">
-              <md-hint align="end">{{lastname.characterCount}} / 25</md-hint>
-            </md-input>          
+            <md-input-container class="form-container">
+              <input mdInput required formControlName="email" type="email" placeholder="{{'Email' | translate:lang}}">
+            </md-input-container>
+            <md-input-container class="form-container">
+              <input mdInput #password required validateEqual="confirmPassword" reverse="true" formControlName="password" type="password" placeholder="{{'Password' | translate:lang}}" minlength="7">
+              <md-hint align="end">7 / {{password.value.length}}</md-hint>
+            </md-input-container>
+            <md-input-container class="form-container">
+              <input mdInput required validateEqual="password" formControlName="confirmPassword" type="password" #confirmPassword placeholder="{{'Confirm Password' | translate:lang}}'" minlength="7">
+              <md-hint align="end">7 / {{confirmPassword.value.length}}</md-hint>              
+            </md-input-container>
+            <md-input-container class="form-container">
+              <input mdInput required formControlName="firstName" #firstname type="text" placeholder="{{'Firstname' | translate:lang}}"  maxlength="25">
+              <md-hint align="end">{{firstname.value.length}} / 25</md-hint>
+            </md-input-container>
+            <md-input-container class="form-container">
+              <input mdInput required formControlName="lastName" #lastname type="text" placeholder="{{'Lastname' | translate:lang}}" maxlength="25">
+              <md-hint align="end">{{lastname.value.length}} / 25</md-hint>
+            </md-input-container>          
         
-            <button md-raised-button class="md-primary" type="submit" [disabled]="!signupForm.valid" aria-label="login"><i class="material-icons">person_add</i>Sign Up</button>   
+            <button md-raised-button color="primary" type="submit" [disabled]="!signupForm.valid" aria-label="login"><md-icon>person_add</md-icon>{{'Sign up' | translate:lang}}</button>   
         </form>      
  
       </div>
 
       <div layout="row" layout-align="center">
-        <p style="padding-left: 10px;" color="warn" *ngIf="(confirmPassword.value == password.value) && (password.value != '') && (confirmPassword.value != '')">Password match</p>
-        <p style="padding-left: 10px;" color="primary" *ngIf="!(confirmPassword.value == password.value) && (password.value != '') && (confirmPassword.value != '')">Password not match</p>
+        <md-toolbar color="primary" *ngIf="(confirmPassword.value == password.value) && (password.value != '') && (confirmPassword.value != '')">
+          <p>{{'Password match' | translate:lang}}</p>
+        </md-toolbar>
+        <md-toolbar color="warn" *ngIf="!(confirmPassword.value == password.value) && (password.value != '') && (confirmPassword.value != '')">
+          <p>{{'Password not match' | translate:lang}}</p>
+        </md-toolbar>        
       </div>
 
       <div layout="row" layout-align="center">
-        <button md-raised-button class="md-warn" style="margin: 5px;" [routerLink]="['/login']"><i class="material-icons">lock_open</i>Already a user?</button>
+        <md-toolbar>
+          <button md-raised-button color="warn" [routerLink]="['/login']"><md-icon>lock_open</md-icon>{{'Already a user?' | translate:lang}}</button>
+        </md-toolbar>
       </div>
     </div>
 </div>

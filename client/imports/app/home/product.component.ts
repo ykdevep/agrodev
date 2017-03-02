@@ -17,13 +17,15 @@ import { Product } from '../../../../both/models/product.model';
 
 import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
 import { DialogsService } from '../dialog/dialogs.service';
-import { ShoppingCartService } from '../services/shopping-cart.service';
+import { ShoppingCartService } from '../services/shoppingCart.service';
 
 import template from './product.component.html';
+import style from './home.component.scss';
 
 @Component({
   selector: 'product',
-  template
+  template,
+  styles: [style]
 })
 
 @InjectUser('user')

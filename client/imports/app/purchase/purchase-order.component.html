@@ -9,7 +9,7 @@
                 <img width="30%" height="30%" [src]="item.product.images | displayMainThumbs">
                 <figcaption style="display: inline">{{item.product.unitPrice}} * {{item.quantityInCart}} = $ {{item.product.unitPrice * item.quantityInCart}} 
                     <button [disabled]="flag" md-mini-fab md-icon-button (click)="removeItem(item.product)">
-                        <i class="material-icons">remove_shopping_cart</i>
+                        <md-icon>remove_shopping_cart</md-icon>
                     </button>
                 </figcaption>
             </figure>
@@ -22,16 +22,26 @@
 <total-price *ngIf="shoppingCart.getPurchaseItemsLenght()"></total-price>
 
 <hr />
-<button *ngIf="shoppingCart.getPurchaseItemsLenght()" style="width: 100%" md-raised-button [disabled]="flag" class="md-raised md-primary" (click)="purchaseButton()"><i class="material-icons">line_weight</i> Purchase</button>
+<button *ngIf="shoppingCart.getPurchaseItemsLenght()" md-raised-button [disabled]="flag" class="md-raised form-container" (click)="purchaseButton()"><md-icon>line_weight</md-icon> Purchase</button>
 
 <div padding-layout [hidden]="!flag">
     <form [formGroup]="purchaseForm" (ngSubmit)="purchase();">
-        <md-input formControlName="shippingAddress" placeholder="Shipping Address" #shippingAddress style="width: 70%"></md-input>
-        <md-input formControlName="shippingCity" placeholder="Shipping City" #shippingCity style="width: 70%"></md-input>
-        <md-input formControlName="shippingZip" placeholder="Shipping Zip" #shippingZip style="width: 70%"></md-input>
-        <md-input formControlName="shippingState" placeholder="Shipping State" #shippingState style="width: 70%"></md-input>
-        <md-input formControlName="shippingCountry" placeholder="Shipping Country" #shippingCountry style="width: 70%"></md-input>
+        <md-input-container style="width: 70%">
+            <input mdInput formControlName="shippingAddress" placeholder="Shipping Address" #shippingAddress>
+        </md-input-container>
+        <md-input-container style="width: 70%">
+            <input mdInput formControlName="shippingCity" placeholder="Shipping City" #shippingCity>
+        </md-input-container>
+        <md-input-container style="width: 70%">
+            <input mdInput formControlName="shippingZip" placeholder="Shipping Zip" #shippingZip>
+        </md-input-container>
+        <md-input-container style="width: 70%">
+            <input mdInput formControlName="shippingState" placeholder="Shipping State" #shippingState>
+        </md-input-container>
+        <md-input-container style="width: 70%">
+            <input mdInput formControlName="shippingCountry" placeholder="Shipping Country" #shippingCountry>
+        </md-input-container>
  
-        <button md-raised-button color="primary" [disabled]="!purchaseForm.valid" style="width: 100%" type="submit"><i class="material-icons">shopping_basket</i> Submit</button>
+        <button md-raised-button color="primary" [disabled]="!purchaseForm.valid" class="form-container" type="submit"><md-icon>shopping_basket</md-icon> Submit</button>
     </form>
 </div>

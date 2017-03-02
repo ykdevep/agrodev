@@ -7,22 +7,29 @@
     <form [formGroup]="addForm" (ngSubmit)="addProduct(); upload.reset()">  
       <div class="row"  fxLayout="row" fxLayout.xs="column">
         <div class="flex-item" fxFlex="50%" fxFlex.xs="100%">        
-          <md-input formControlName="name" placeholder="Product name" #name style="width: 86%" required minlength="2" maxlength="50">
-            <md-hint align="end">{{name.characterCount}} / 50</md-hint>
-          </md-input>
+          <md-input-container style="width: 86%" >
+            <input mdInput formControlName="name" placeholder="Product name" #name required minlength="2" maxlength="50" />
+            <md-hint align="end">{{name.value.length}} / 50</md-hint>
+          </md-input-container>
 
-          <md-checkbox formControlName="on_sale" style="width: 10%">On Sale</md-checkbox>     
+          <md-checkbox style="width: 10%" formControlName="on_sale">On Sale</md-checkbox>     
 
-          <md-input type="number" step="any" formControlName="quantity_in_stock" placeholder="Quantity" #quantity_in_stock style="width: 15%" required></md-input>
-          <md-input type="number" step="any" formControlName="unit_price" placeholder="Unit price" #unit_price style="width: 15%" required></md-input>
+          <md-input-container style="width: 15%">
+            <input mdInput type="number" step="any" formControlName="quantity_in_stock" placeholder="Quantity" #quantity_in_stock required />
+          </md-input-container>
+          <md-input-container style="width: 15%">
+            <input mdInput type="number" step="any" formControlName="unit_price" placeholder="Unit price" #unit_price required />
+          </md-input-container>
 
-          <md-input formControlName="location"  placeholder="Location" #location required style="width: 68%" minlength="2" maxlength="40">
-            <md-hint align="end">{{location.characterCount}} / 40</md-hint>
-          </md-input>
+          <md-input-container style="width: 68%">
+            <input mdInput formControlName="location" placeholder="Location" #location required minlength="2" maxlength="40" />
+            <md-hint align="end">{{location.value.length}} / 40</md-hint>
+          </md-input-container>
 
-          <md-textarea formControlName="description" placeholder="Description" #description style="width: 100%;" minlength="2" maxlength="250" required>
-              <md-hint align="end">{{description.characterCount}} / 250</md-hint>
-          </md-textarea>
+          <md-input-container style="width: 100%;">
+              <textarea mdInput formControlName="description" placeholder="Description" #description minlength="2" maxlength="250" required></textarea>
+              <md-hint align="end">{{description.value.length}} / 250</md-hint>
+          </md-input-container>
         </div>
         
         <div class="flex-item map" fxFlex="50%" fxFlex.xs="100%">        

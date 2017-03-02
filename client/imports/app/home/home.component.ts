@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
+import { Translation, TranslationService } from 'angular-l10n';
+
 import { Meteor } from 'meteor/meteor'; 
 import { MeteorObservable } from 'meteor-rxjs';
 import { InjectUser } from "angular2-meteor-accounts-ui";
@@ -15,7 +17,7 @@ import 'rxjs/add/operator/debounce';
 
 import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
 import { DialogsService } from '../dialog/dialogs.service';
-import { ShoppingCartService } from '../services/shopping-cart.service';
+import { ShoppingCartService } from '../services/shoppingCart.service';
 
 import { Products } from '../../../../both/collections/products.collection';
 import { Product } from '../../../../both/models/product.model'; 
@@ -23,7 +25,7 @@ import { Images } from '../../../../both/collections/images.collection';
 import { Thumbs } from '../../../../both/collections/images.collection';
 
 import template from './home.component.html';
-const style = './parties-form.component.scss';
+import style from './home.component.scss';
 
 interface Pagination {
   limit: number;
@@ -36,11 +38,11 @@ interface Options extends Pagination {
 @Component({
   selector: 'home',
   template,
-  styleUrls: [style]
+  styles: [style]
 })
 
 @InjectUser('user')
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent extends Translation implements OnInit, OnDestroy {
   isLoading = true;
   searchForm: FormGroup;
 
@@ -72,10 +74,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     private snackBar: MdSnackBar,
     private dialog: DialogsService,
     private shoppingCart: ShoppingCartService,
-    private viewContainerRef: ViewContainerRef) {}
+    private viewContainerRef: ViewContainerRef,
+    public translation: TranslationService) {      
+        super(translation);    
+    }
 
   ngOnInit() {
-
     this.thumbsSub = MeteorObservable.subscribe('thumb').subscribe();
 
     this.optionsSub = Observable.combineLatest(

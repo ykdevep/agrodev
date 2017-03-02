@@ -1,0 +1,5 @@
+{
+  "env": {
+      "MAIL_URL": "smtp://ysantalla@upr.edu.cu:yasmany.88@correo.upr.edu.cu:587"
+  }
+}

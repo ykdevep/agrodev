@@ -6,15 +6,21 @@
   
     <md-toolbar>              
       <form [formGroup]="searchForm" (ngSubmit)="search();">
-          <md-input formControlName="name" placeholder="What is looking for you?" #name style="width: 54%"></md-input>
-          <md-input formControlName="min" step="any" type="number" placeholder="Min" #min style="width: 10%"></md-input>
-          <md-input formControlName="max" step="any" type="number" placeholder="Max" #max style="width: 10%"></md-input>
+          <md-input-container style="width: 54%">
+            <input mdInput formControlName="name" placeholder="{{ 'What is looking for you?' | translate:lang }}" #name>
+          </md-input-container>
+          <md-input-container style="width: 10%">
+            <input mdInput formControlName="min" step="any" type="number" placeholder="{{ 'Min' | translate:lang }}" #min>
+          </md-input-container>
+          <md-input-container style="width: 10%">
+            <input mdInput formControlName="max" step="any" type="number" placeholder="{{ 'Max' | translate:lang }}" #max>
+          </md-input-container>
 
-          <button md-raised-button color="primary" type="submit"><i class="material-icons">search</i>Search</button>
+          <button md-raised-button color="primary" type="submit"><md-icon>search</md-icon>{{ 'Search' | translate:lang }}</button>
       </form>   
     </md-toolbar>         
 
-    <h1 *ngIf="productsSize == 0">Products not found </h1>    
+    <h1 *ngIf="productsSize == 0">{{ 'Products not found' | translate:lang }}</h1>  
 
     <md-grid-list rowHeight="400px" gutterSize="1px" cols="5">                
       <md-grid-tile *ngFor="let product of products | async">
@@ -34,7 +40,7 @@
             </p>
           </md-card-content>
           <md-card-actions>
-            <button md-raised-button color="primary" (click)="addCart(product)"><i class="material-icons">add_shopping_cart</i></button>
+            <button md-raised-button color="primary" (click)="addCart(product)"><md-icon>add_shopping_cart</md-icon></button>
           </md-card-actions>
         </md-card>        
       </md-grid-tile>

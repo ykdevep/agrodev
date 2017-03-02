@@ -1,11 +1,78 @@
 @import '../node_modules/@angular/material/core/theming/all-theme';
 
-@include md-core();
-$app-primary: md-palette($md-light-blue, 500, 100, 700);
-$app-accent:  md-palette($md-pink, A200, A100, A400);
-$app-warn:    md-palette($md-red);
-$app-theme: md-light-theme($app-primary, $app-accent, $app-warn);
-@include angular-material-theme($app-theme);
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+$candy-app-primary: mat-palette($mat-cyan);
+$candy-app-accent:  mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$candy-app-warn:    mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($candy-app-theme);
+
+//Define the @font-face Material Icons
+$md-font-url: './fonts/' !default;
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url($md-font-url + 'MaterialIcons-Regular.eot'); /* For IE6-8 */
+  src: local($md-font-url + 'Material Icons'),
+       local($md-font-url + 'MaterialIcons-Regular'),
+       url($md-font-url + 'MaterialIcons-Regular.woff2') format('woff2'),
+       url($md-font-url + 'MaterialIcons-Regular.woff') format('woff'),
+       url($md-font-url + 'MaterialIcons-Regular.ttf') format('truetype');
+}
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+// Rules for sizing the icon.
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+// Rules for using icons as black on a light background.
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+// Rules for using icons as white on a dark background.
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
 
 body {
   background-color: #f8f8f8;
@@ -45,6 +112,10 @@ html, body, md-sidenav-container{
     top: 60px;
 } 
 
+.form-container {
+  width: 100%;
+}
+
 md-progress-circle {
   position: absolute;
   left: 45%;
@@ -52,8 +123,12 @@ md-progress-circle {
 }
 
 md-sidenav {
-  width: 30%;
-  padding-top: 50px;
+  width: 33%;
+  padding-top: 50px;  
+}
+
+.mat-sidenav-focus-trap>.cdk-focus-trap-content {
+  overflow-x: hidden;
 }
 
 md-sidenav-layout {
@@ -108,39 +183,3 @@ total-price {
 footer.flex-item > md-toolbar {
   height: 70px;
 }
-
-.material-icons {
-  font-family: 'Material Icons';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;  /* Preferred icon size */
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-
-  /* Support for all WebKit browsers. */
-  -webkit-font-smoothing: antialiased;
-  /* Support for Safari and Chrome. */
-  text-rendering: optimizeLegibility;
-
-  /* Support for Firefox. */
-  -moz-osx-font-smoothing: grayscale;
-
-  /* Support for IE. */
-  font-feature-settings: 'liga';
-}
-
-@import "./imports/app/product/product-list.component";
-@import "./imports/app/product/product-details.component";
-@import "./imports/app/product/product-upload.component";
-
-@import "./imports/app/route/route-list.component";
-@import "./imports/app/route/route-details.component";
-
-@import "./imports/app/static-pages/about.component";
-@import "./imports/app/static-pages/help.component";
-@import "./imports/app/home/home.component";

@@ -9,7 +9,7 @@
           <p>Count of routes: ({{routesSize}})</p> 
           
           <form [formGroup]="searchForm" (ngSubmit)="search();">
-              <md-input formControlName="name" placeholder="Search route by name" #name></md-input>
+              <md-input-container formControlName="name" placeholder="Search route by name" #name></md-input-container>
               <button md-raised-button color="primary" type="submit"><i class="material-icons">search</i>Search</button>
           </form>          
 

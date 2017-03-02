@@ -6,10 +6,13 @@
 
     <div class="row">
       <md-toolbar>
+        <p translate>Title</p>
           <p>Count of routes: ({{productsSize}})</p> 
           
           <form [formGroup]="searchForm" (ngSubmit)="search();">
-              <md-input formControlName="name" placeholder="Search product by name" #name></md-input>
+              <md-input-container>
+                <input mdInput formControlName="name" placeholder="Search product by name" #name />
+              </md-input-container>
               <button md-raised-button color="primary" type="submit"><i class="material-icons">search</i>Search</button>
           </form>          
 

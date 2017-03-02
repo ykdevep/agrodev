@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
-import { ShoppingCartService } from '../services/shopping-cart.service';
+import { ShoppingCartService } from '../services/shoppingCart.service';
 
 import { Meteor } from 'meteor/meteor'; 
 import { InjectUser } from "angular2-meteor-accounts-ui";

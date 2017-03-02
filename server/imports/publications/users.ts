@@ -8,7 +8,7 @@ interface Options {
 
 Meteor.publish('users', function (options: Options, name?: string) {
   const selector = buildQuery.call(this, null, name);
-  Counts.publish(this, 'numberOfRoutes', Users.collection.find(selector), { noReady: true });
+  Counts.publish(this, 'numberOfUsers', Users.collection.find(selector), { noReady: true });
   return Users.find(selector, options);
 }); 
 

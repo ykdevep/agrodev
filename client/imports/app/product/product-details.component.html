@@ -8,18 +8,18 @@
       <form *ngIf="product" (submit)="saveProduct()">  
         <div class="row"  fxLayout="row" fxLayout.xs="column">
           <div class="flex-item" fxFlex="50%" fxFlex.xs="100%">        
-            <md-input [disabled]="!isOwner" type="text" [(ngModel)]="product.name" name="name" #name placeholder="Product name" style="width: 85%" minlength="2" maxlength="50" required>
+            <md-input-container [disabled]="!isOwner" type="text" [(ngModel)]="product.name" name="name" #name placeholder="Product name" style="width: 85%" minlength="2" maxlength="50" required>
               <md-hint align="end">{{name.characterCount}} / 50</md-hint>
-            </md-input>
+            </md-input-container>
 
             <md-checkbox [disabled]="!isOwner" [(ngModel)]="product.onSale" name="on_sale" style="width: 10%">On Sale</md-checkbox>
             
-            <md-input [disabled]="!isOwner" type="number" [(ngModel)]="product.quantityInStock" name="quantity_in_stock" placeholder="Quantity" #quantity_in_stock style="width: 15%" required></md-input>
-            <md-input [disabled]="!isOwner" type="number" step="any" [(ngModel)]="product.unitPrice" name="unit_price" placeholder="Unit price" #unit_price style="width: 15%" required></md-input>
+            <md-input-container [disabled]="!isOwner" type="number" [(ngModel)]="product.quantityInStock" name="quantity_in_stock" placeholder="Quantity" #quantity_in_stock style="width: 15%" required></md-input-container>
+            <md-input-container [disabled]="!isOwner" type="number" step="any" [(ngModel)]="product.unitPrice" name="unit_price" placeholder="Unit price" #unit_price style="width: 15%" required></md-input-container>
             
-            <md-input [disabled]="!isOwner" type="text" [(ngModel)]="product.location.name" name="location" #location placeholder="Location" style="width: 68%" required minlength="2" maxlength="40">
+            <md-input-container [disabled]="!isOwner" type="text" [(ngModel)]="product.location.name" name="location" #location placeholder="Location" style="width: 68%" required minlength="2" maxlength="40">
               <md-hint align="end">{{location.characterCount}} / 40</md-hint>
-            </md-input>
+            </md-input-container>
 
             <md-textarea [disabled]="!isOwner"  type="text" [(ngModel)]="product.description" name="description" #description placeholder="Description" style="width: 100%"  minlength="2" maxlength="250" required>
               <md-hint align="end">{{description.characterCount}} / 250</md-hint>

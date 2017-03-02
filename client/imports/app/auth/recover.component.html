@@ -1,18 +1,22 @@
 <div class="flex-container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="start">
     <div class="md-whiteframe-z2 flex-item" fxFlex="60%" fxFlex.xs="100%" layout-padding layout-margin>        
-      <md-toolbar class="md-primary" color="primary">
-        Recover Your Password
+      <md-toolbar color="primary">
+        <h3>{{'Recover Your Password' | translate:lang}}</h3>
       </md-toolbar>        
 
       <div class="row">
         <form [formGroup]="recoverForm" #f="ngForm" (ngSubmit)="recover()">          
-          <md-input required formControlName="email" type="email" placeholder="Email" style="width: 100%"></md-input>          
-          <button md-raised-button class="md-primary" [disabled]="!recoverForm.valid" type="submit" aria-label="Recover">Recover</button>         
+          <md-input-container class="form-container" >
+            <input mdInput  required formControlName="email" type="email" placeholder="{{'Email' | translate:lang}}">
+          </md-input-container>          
+          <button md-raised-button color="primary" [disabled]="!recoverForm.valid" type="submit" aria-label="Recover">{{'Recover' | translate:lang}}</button>         
         </form> 
       </div>
 
-      <div class="row">
-        <button md-raised-button class="md-warn" [routerLink]="['/login']">Remember your password?</button>
+      <div layout="row" layout-align="center">
+        <md-toolbar>
+          <button md-raised-button color="warn" [routerLink]="['/login']">{{'Remember your password?' | translate:lang}}</button>
+        </md-toolbar>
       </div>
     </div>
 </div>

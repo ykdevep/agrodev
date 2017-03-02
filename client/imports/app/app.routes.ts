@@ -20,19 +20,18 @@ import { AboutComponent} from './static-pages/about.component';
 import { HelpComponent} from './static-pages/help.component';
 
 export const routes: Route[] = [
-  { path: '', component: HomeComponent },
-  { path: 'product/:productId', component: ProductComponent },
-  { path: 'user/products', component: ProductListComponent, canActivate: ['canActivateForLoggedIn'] },
+  { path: '', component: HomeComponent, data: { title: 'Home | APP' } },
+  { path: 'product/:productId', component: ProductComponent, data: { title: 'My Calendar' }},
+  { path: 'user/products', component: ProductListComponent, canActivate: ['canActivateForLoggedIn'], data: { title: 'My Calendar' } },
   { path: 'user/purchases', component: MyPurchaseOrderComponent, canActivate: ['canActivateForLoggedIn'] },
   { path: 'user/product/:productId', component: ProductDetailsComponent, canActivate: ['canActivateForLoggedIn'] },
   { path: 'user/routes', component: RouteListComponent, canActivate: ['canActivateForLoggedIn'] },
   { path: 'user/route/:routeId', component: RouteDetailsComponent, canActivate: ['canActivateForLoggedIn'] },
-  { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
-  { path: 'recover', component: RecoverComponent },
-  { path: 'about', component: AboutComponent },
-  { path: 'help', component: HelpComponent }
-
+  { path: 'login', component: LoginComponent, data: { title: 'Login | APP' } },
+  { path: 'signup', component: SignupComponent, data: { title: 'Singup | APP' } },
+  { path: 'recover', component: RecoverComponent, data: { title: 'Recover | APP' } },
+  { path: 'about', component: AboutComponent, data: { title: 'About | APP' } },
+  { path: 'help', component: HelpComponent, data: { title: 'Help | APP' } }
 ];
 
 export const ROUTES_PROVIDERS = [{
